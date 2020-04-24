@@ -25,7 +25,10 @@ public class SetupGui : MonoBehaviour
     private Slider m_stressLevelSlider;
     [SerializeField]
     private Text m_stressLevelValue;
-#endregion // UiObjects
+    #endregion // UiObjects
+
+    [SerializeField]
+    private SimulationData m_simulationData;
 
     private AsyncOperation m_openSimulationScene;
 
@@ -65,6 +68,11 @@ public class SetupGui : MonoBehaviour
 
     IEnumerator LoadScene()
     {
+        m_simulationData = ScriptableObject.CreateInstance<SimulationData>();
+        m_simulationData.populationDensity = (uint) m_populationDensitySlider.value;
+        m_simulationData.infectivity = m_infectivitySlider.value;
+        m_simulationData.stressLevel = m_stressLevelSlider.value;
+
         yield return null;
 
         m_openSimulationScene = SceneManager.LoadSceneAsync(m_simulationSceneName);
