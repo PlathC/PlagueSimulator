@@ -20,8 +20,9 @@ public class CityInitializor : MonoBehaviour
     {
         
         m_simulationData = ScriptableObject.FindObjectOfType<SimulationData>();
+        
         var map = GameObject.FindGameObjectWithTag("Map");
-
+        
         uint height = 0, width = 0;
         
         if (map.GetComponent<Renderer>() != null)
