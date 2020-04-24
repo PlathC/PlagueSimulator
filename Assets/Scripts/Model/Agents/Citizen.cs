@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Cityzen : Agent
+public class Citizen : Agent
 {
 
     // Use this for initialization
