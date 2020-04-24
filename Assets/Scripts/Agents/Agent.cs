@@ -4,5 +4,5 @@ using System.Collections;
 public abstract class Agent : MonoBehaviour
 {
     [SerializeField]
-    private GameObject body = null;
+    private GameObject m_body = null;
 }

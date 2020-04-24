@@ -14,4 +14,9 @@ public class SetupGui : MonoBehaviour
     {
         
     }
+
+    public void OnLaunchGameButtonClicked()
+    {
+        Debug.Log("CLICKED ! ");
+    }
 }
