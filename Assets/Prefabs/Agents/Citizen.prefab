@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3033161137534541184}
   - component: {fileID: 9212290498471495582}
   - component: {fileID: 5344696056152967665}
+  - component: {fileID: 8875205739464047510}
   m_Layer: 0
   m_Name: Citizen
   m_TagString: Player
@@ -119,3 +120,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d350314dc8f98504f80ee9e6539fe729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &8875205739464047510
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2167683049525064491}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 1, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}

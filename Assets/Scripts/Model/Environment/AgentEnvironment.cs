@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 
-public class Environment : MonoBehaviour
+public class AgentEnvironment : MonoBehaviour
 {
     List<CitizenBody> m_citizenList;
     // Use this for initialization
@@ -15,6 +15,13 @@ public class Environment : MonoBehaviour
     void Update()
     {
 
+
+
+    }
+
+    public float GetVirusContagiousity()
+    {
+        return 1f;
     }
 
     public void UpdateAgentList()

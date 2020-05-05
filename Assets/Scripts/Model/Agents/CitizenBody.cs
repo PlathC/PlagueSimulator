@@ -26,7 +26,26 @@ public class CitizenBody : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(transform.position, new Vector3(0, 0, 0), 20f*Time.deltaTime);
     }
+    private void OnTriggerEnter(BoxCollider other)
+    {
+        if (m_state == State.Healthy)
+        {
+            if (other.gameObject.GetComponent<CitizenBody>())
+            {
+                var otherBody = other.gameObject.GetComponent<CitizenBody>();
+                
+                if (otherBody.m_state == State.Infected)
+                {
+                    var envObject = GameObject.FindGameObjectWithTag("AgentEnvironment");
+                    var env = envObject.GetComponent<AgentEnvironment>();
 
+                    if (env.GetVirusContagiousity() == 1)
+                        m_state = State.Infected;
+                    
+                }
+            }
+        }
+    }
 }
 
 enum State
