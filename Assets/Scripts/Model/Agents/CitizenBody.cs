@@ -2,9 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CitizenBody : MonoBehaviour
+public class CitizenBody : AgentBody
 {
     private State m_state = State.Healthy;
+
+    public State State
+    {
+        get { return m_state; }
+        set
+        {
+            m_state = value;
+
+            Color color = new Color();
+            switch (m_state)
+            {
+                case State.Healthy:
+                    color = Color.green;
+                    break;
+                case State.Infected:
+                    color = Color.red;
+                    break;
+                case State.Immuned:
+                    color = Color.gray;
+                    break;
+                case State.Dead:
+                    color = Color.black;
+                    break;
+            }
+            gameObject.GetComponent<Renderer>().material.SetColor("_Color", color);
+        }
+    }
+
+    [SerializeField]
+    private float m_speed = 5f;
 
     private float m_socialStress = .0f;
     private float m_socialStressThresh = 100f;
@@ -14,22 +44,24 @@ public class CitizenBody : MonoBehaviour
 
     private Vector3 m_homePosition;
 
-
     // Start is called before the first frame update
     void Start()
     {
         m_homePosition = gameObject.transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    void MoveTo(Vector3 position)
     {
-        transform.position = Vector3.MoveTowards(transform.position, new Vector3(0, 0, 0), 20f*Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, position, m_speed * Time.deltaTime);
     }
 
+    void ReturnHome()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, m_homePosition, m_speed * Time.deltaTime);
+    }
 }
 
-enum State
+public enum State
 {
     Healthy,
     Infected,

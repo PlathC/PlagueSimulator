@@ -4,7 +4,8 @@ using System.Collections;
 
 public class Environment : MonoBehaviour
 {
-    List<CitizenBody> m_citizenList;
+    private List<CitizenBody> m_citizenList = new List<CitizenBody>();
+
     // Use this for initialization
     void Start()
     {
