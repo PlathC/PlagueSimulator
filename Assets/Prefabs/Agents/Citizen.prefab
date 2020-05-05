@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 85960893862590173}
   - component: {fileID: 3033161137534541184}
   - component: {fileID: 9212290498471495582}
+  - component: {fileID: 5344696056152967665}
   m_Layer: 0
   m_Name: Citizen
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2167683049525064491}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 610.0753, y: 639.76337, z: 277.2713}
+  m_LocalPosition: {x: 615.22064, y: 5.31, z: -163.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -104,5 +105,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa1adf5352ea59747b782999b94e5e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5344696056152967665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2167683049525064491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d350314dc8f98504f80ee9e6539fe729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

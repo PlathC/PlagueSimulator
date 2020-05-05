@@ -6,6 +6,9 @@ public class CityInitializor : MonoBehaviour
     [SerializeField]
     private SimulationData m_simulationData = null;
 
+    [SerializeField]
+    private Environment m_environment = null;
+
 #region PrefabsFields
 
     [SerializeField]
@@ -49,6 +52,8 @@ public class CityInitializor : MonoBehaviour
                                       Quaternion.identity);
             citizen.transform.parent = map.transform;
         }
+
+        m_environment.UpdateAgentList();
     }
 
     void Update()
