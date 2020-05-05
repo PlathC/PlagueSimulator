@@ -59,6 +59,27 @@ public class CitizenBody : AgentBody
     {
         transform.position = Vector3.MoveTowards(transform.position, m_homePosition, m_speed * Time.deltaTime);
     }
+    
+    private void OnTriggerEnter(BoxCollider other)
+    {
+        if (m_state == State.Healthy)
+        {
+            if (other.gameObject.GetComponent<CitizenBody>())
+            {
+                var otherBody = other.gameObject.GetComponent<CitizenBody>();
+                
+                if (otherBody.m_state == State.Infected)
+                {
+                    var envObject = GameObject.FindGameObjectWithTag("AgentEnvironment");
+                    var env = envObject.GetComponent<AgentEnvironment>();
+
+                    if (env.GetVirusContagiousity() == 1)
+                        m_state = State.Infected;
+                    
+                }
+            }
+        }
+    }
 }
 
 public enum State
