@@ -7,6 +7,11 @@ public class AgentEnvironment : MonoBehaviour
     private List<CitizenBody> m_citizenList = new List<CitizenBody>();
 
     private int sickNumber = 0;
+    
+    public List<CitizenBody> CitizenList
+    {
+        get { return m_citizenList; }
+    }
 
     // Use this for initialization
     void Start()

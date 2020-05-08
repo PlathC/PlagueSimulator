@@ -5,7 +5,8 @@ public class Citizen : Agent
 {
     private CitizenBody m_citizenBody;
 
-    private Vector3 destination;
+    private Vector3 m_destination;
+    private AgentEnvironment m_environment;
 
     // Use this for initialization
     void Start()
@@ -18,17 +19,17 @@ public class Citizen : Agent
     {
         if(m_citizenBody.SocialStress > m_citizenBody.SocialThresh)
         {
-            if(m_citizenBody.PositionState != PositionState.IsMoving)
+            if(m_citizenBody.PositionState != PositionStateEnum.IsMoving)
             {
                 float radius = 50f;
-                destination = m_citizenBody.HomePosition;
-                destination.x += Random.Range(-radius, radius);
-                destination.z += Random.Range(-radius, radius);
-                m_citizenBody.MoveTo(destination);
+                m_destination = m_citizenBody.HomePosition;
+                m_destination.x += Random.Range(-radius, radius);
+                m_destination.z += Random.Range(-radius, radius);
+                m_citizenBody.MoveTo(m_destination);
             }
             else
             {
-                m_citizenBody.MoveTo(destination);
+                m_citizenBody.MoveTo(m_destination);
             }
             
         }
