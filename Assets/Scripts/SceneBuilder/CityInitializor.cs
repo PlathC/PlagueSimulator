@@ -7,7 +7,7 @@ public class CityInitializor : MonoBehaviour
     private SimulationData m_simulationData = null;
 
     [SerializeField]
-    private Environment m_environment = null;
+    private AgentEnvironment m_environment = null;
 
 #region PrefabsFields
 
