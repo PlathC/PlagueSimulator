@@ -1,28 +1,32 @@
-﻿using UnityEngine;
+﻿using Model.Data;
+using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
-using System.Collections;
 
-public class SimulationUi : MonoBehaviour
+namespace Ui
 {
-    [SerializeField]
-    private SimulationData m_simulationData;
-
-    [SerializeField]
-    private Text m_simulationDataText;
-
-    // Use this for initialization
-    void Start()
+    public class SimulationUi : MonoBehaviour
     {
-        m_simulationData = ScriptableObject.FindObjectOfType<SimulationData>();
-        m_simulationDataText.text += $"{m_simulationData.ToString()} : " +
-            $"Density {m_simulationData.populationDensity} | " +
-            $"Infectivity {m_simulationData.infectivity} | " +
-            $"Stress Level {m_simulationData.stressLevel}";
-    }
+        [SerializeField]
+        private SimulationData simulationData;
 
-    // Update is called once per frame
-    void Update()
-    {
+        [SerializeField]
+        private Text simulationDataText;
 
+        // Use this for initialization
+        void Start()
+        {
+            simulationData = ScriptableObject.FindObjectOfType<SimulationData>();
+            simulationDataText.text += $"{simulationData.ToString()} : " +
+                                         $"Density {simulationData.populationDensity} | " +
+                                         $"Infectivity {simulationData.infectivity} | " +
+                                         $"Stress Level {simulationData.stressLevel}";
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
     }
 }

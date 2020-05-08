@@ -1,44 +1,47 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Model.Environment;
+using UnityEngine;
 
-public class Citizen : Agent
+namespace Model.Agents
 {
-    private CitizenBody m_citizenBody;
-
-    private Vector3 m_destination;
-    private AgentEnvironment m_environment;
-
-
-    // Use this for initialization
-    protected override void Start()
+    public class Citizen : Agent
     {
-        base.Start();
-        m_citizenBody = gameObject.GetComponent<CitizenBody>();
-    }
+        private CitizenBody m_citizenBody;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(m_citizenBody.SocialStress > m_citizenBody.SocialThresh)
+        private Vector3 m_destination;
+        private AgentEnvironment m_environment;
+
+
+        // Use this for initialization
+        protected override void Start()
         {
-            if(m_citizenBody.PositionState != PositionStateEnum.IsMoving)
+            base.Start();
+            m_citizenBody = gameObject.GetComponent<CitizenBody>();
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if(m_citizenBody.SocialStress > m_citizenBody.SocialThresh)
             {
-                float radius = 50f;
-                m_destination = m_citizenBody.HomePosition;
-                m_destination.x += Random.Range(-radius, radius);
-                m_destination.z += Random.Range(-radius, radius);
-                m_citizenBody.MoveTo(m_destination);
+                if(m_citizenBody.PositionState != PositionStateEnum.IsMoving)
+                {
+                    float radius = 50f;
+                    m_destination = m_citizenBody.HomePosition;
+                    m_destination.x += Random.Range(-radius, radius);
+                    m_destination.z += Random.Range(-radius, radius);
+                    m_citizenBody.MoveTo(m_destination);
+                }
+                else
+                {
+                    m_citizenBody.MoveTo(m_destination);
+                }
+            
             }
             else
             {
-                m_citizenBody.MoveTo(m_destination);
+                m_citizenBody.ReturnHome();
             }
             
         }
-        else
-        {
-            m_citizenBody.ReturnHome();
-        }
-            
     }
 }
