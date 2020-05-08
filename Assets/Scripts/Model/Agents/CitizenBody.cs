@@ -20,7 +20,7 @@ namespace Model.Agents
             {
                 m_state = value;
 
-                Color color = new Color();
+                var color = new Color();
                 switch (m_state)
                 {
                     case SicknessState.Healthy:
@@ -36,17 +36,16 @@ namespace Model.Agents
                         color = Color.black;
                         break;
                 }
-                var renderer = gameObject.GetComponent<Renderer>();
-                if(renderer)
-                    renderer.material.SetColor("_Color", color);
+                var goRenderer = gameObject.GetComponent<Renderer>();
+                if(goRenderer)
+                    goRenderer.material.SetColor("_Color", color);
 
                 var env = GameObject.FindGameObjectWithTag("AgentEnvironment");
-                if(env)
-                {
-                    var agentEnvironment = env.GetComponent<AgentEnvironment>();
-                    if (agentEnvironment)
-                        agentEnvironment.NotifyAgentModification(new StorageData(m_state, transform.position));
-                }
+                if (!env) return;
+                
+                var agentEnvironment = env.GetComponent<AgentEnvironment>();
+                if (agentEnvironment)
+                    agentEnvironment.NotifyAgentModification(new StorageData(m_state, transform.position));
             }
         }
 
@@ -76,22 +75,17 @@ namespace Model.Agents
         void Start()
         {
             m_homePosition = gameObject.transform.position;
-            if (Random.Range(0, 10) > 8)
-                State = SicknessState.Infected;
-            else
-                State = SicknessState.Healthy;
-
+            State = Random.Range(0, 10) > 8 ? SicknessState.Infected : SicknessState.Healthy;
+            
             m_socialGrowthRate = Random.Range(.05f, .3f);
             m_socialStressThresh = Random.Range(10f, 100f);
         }
 
         void Update()
         {
-            if(PositionState != PositionStateEnum.IsMoving)
-            {
-                m_socialStress += m_socialGrowthRate;
-                m_outStress += 0.1f;
-            }
+            if (PositionState == PositionStateEnum.IsMoving) return;
+            m_socialStress += m_socialGrowthRate;
+            m_outStress += 0.1f;
         }
 
         public void MoveTo(Vector3 position)
