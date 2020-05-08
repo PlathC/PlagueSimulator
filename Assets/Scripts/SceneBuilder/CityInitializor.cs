@@ -7,10 +7,6 @@ namespace SceneBuilder
 {
     public class CityInitializor : MonoBehaviour
     {
-
-        [SerializeField]
-        private AgentEnvironment environment = null;
-
         #region PrefabsFields
 
         [SerializeField]
@@ -21,11 +17,18 @@ namespace SceneBuilder
 
         #endregion //PrefabsFields
 
-        
+        private AgentEnvironment m_environment = null;
         private SimulationData simulationData = null;
 
         private void Start()
-        {
+        {            
+            var env = GameObject.FindGameObjectWithTag("AgentEnvironment");
+            if (!env) return;
+                
+            var agentEnvironment = env.GetComponent<AgentEnvironment>();
+            if (agentEnvironment)
+                m_environment = agentEnvironment;
+
             simulationData = ScriptableObject.FindObjectOfType<SimulationData>();
         
             var map = GameObject.FindGameObjectWithTag("Map");
@@ -38,14 +41,15 @@ namespace SceneBuilder
                 width = (uint)size.x;
                 height = (uint)size.z;
             }
-
+            var mapPosition = map.transform.position;
+            m_environment.Coordinates = new AgentEnvironment.MapCoordinates(mapPosition, width, height);
+            
+            // Instantiate House prefab
             for (uint i = 0; i < simulationData.populationDensity; i++)
             {
-                // Instantiate House prefab
-                var mapPosition = map.transform.position;
-                var position = new Vector3(mapPosition.x + Random.Range(0, width) - (float)width / 2,
+                var position = new Vector3(mapPosition.x + Random.Range(-(float)width / 2, (float)width / 2),
                     mapPosition.y + 0,
-                    mapPosition.z + Random.Range(0, height) - (float)height / 2);
+                    mapPosition.z + Random.Range(-(float)height / 2, (float)height / 2));
                 var house = Instantiate(housePrefab,
                     position, 
                     Quaternion.identity);
@@ -57,7 +61,7 @@ namespace SceneBuilder
                 citizen.transform.parent = map.transform;
             }
 
-            environment.UpdateAgentList();
+            m_environment.UpdateAgentList();
         }
 
         void Update()

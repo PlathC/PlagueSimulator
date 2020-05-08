@@ -84,7 +84,7 @@ namespace Ui
             while (!m_openSimulationScene.isDone)
             {
                 //Output the current progress
-                Debug.Log("Loading progress: " + (m_openSimulationScene.progress * 100) + "%");
+                Debug.Log("Loading progress: " + (m_openSimulationScene.progress * 100).ToString() + "%");
 
                 // Check if the load has finished
                 if (m_openSimulationScene.progress >= 0.9f)

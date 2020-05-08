@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Model.Data;
 using Model.Environment;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -42,13 +43,8 @@ namespace Model.Agents
                 var goRenderer = gameObject.GetComponent<Renderer>();
                 if(goRenderer)
                     goRenderer.material.SetColor("_Color", color);
-
-                var env = GameObject.FindGameObjectWithTag("AgentEnvironment");
-                if (!env) return;
                 
-                var agentEnvironment = env.GetComponent<AgentEnvironment>();
-                if (agentEnvironment)
-                    agentEnvironment.NotifyAgentModification(new StorageData(m_state, transform.position));
+                m_environment.NotifyAgentModification(new StorageData(m_state, transform.position));
             }
         }
 
@@ -75,10 +71,21 @@ namespace Model.Agents
         private Vector3 m_homePosition;
         private static readonly int ColorProperty = Shader.PropertyToID("_Color");
 
+        private AgentEnvironment m_environment;
+        
         // Start is called before the first frame update
         private void Start()
         {
             m_homePosition = gameObject.transform.position;
+                        
+            var env = GameObject.FindGameObjectWithTag("AgentEnvironment");
+            if (!env)
+                return;
+
+            var agentEnvironment = env.GetComponent<AgentEnvironment>();
+            if (agentEnvironment)
+                m_environment = agentEnvironment;
+            
             State = Random.Range(0, 10) > 8 ? SicknessState.Infected : SicknessState.Healthy;
             
             m_socialGrowthRate = Random.Range(.05f, .3f);
@@ -94,7 +101,13 @@ namespace Model.Agents
 
         public void MoveTo(Vector3 position)
         {
-            transform.position = Vector3.MoveTowards(transform.position, position, speed * Time.deltaTime);
+            Vector3 positionToCheck = Vector3.MoveTowards(transform.position, position, speed * Time.deltaTime);
+            
+            if (!m_environment.IsOnMapRelative(positionToCheck))
+                return;
+            
+            transform.position = positionToCheck;
+            
             if (Vector3.Distance(transform.position, position) < m_positionCloseThresh)
                 m_positionStateEnum = PositionStateEnum.NotMoving;
             else
@@ -103,7 +116,13 @@ namespace Model.Agents
 
         public void ReturnHome()
         {
-            transform.position = Vector3.MoveTowards(transform.position, m_homePosition, speed * Time.deltaTime);
+            var positionToCheck = Vector3.MoveTowards(transform.position, m_homePosition, speed * Time.deltaTime);
+
+            if (!m_environment.IsOnMapRelative(positionToCheck))
+                return;
+            
+            transform.position = positionToCheck;
+            
             if (Vector3.Distance(transform.position, m_homePosition) < m_positionCloseThresh)
                 m_positionStateEnum = PositionStateEnum.AtHome;
         }
@@ -119,10 +138,7 @@ namespace Model.Agents
             if (otherBody.PositionState != PositionStateEnum.AtHome &&
                 otherBody.m_state == SicknessState.Infected)
             {
-                var envObject = GameObject.FindGameObjectWithTag("AgentEnvironment");
-                var env = envObject.GetComponent<AgentEnvironment>();
-
-                if (env.GetVirusContagiousity())
+                if (m_environment.GetVirusContagiousity())
                 {
                     State = SicknessState.Infected;
                 }
