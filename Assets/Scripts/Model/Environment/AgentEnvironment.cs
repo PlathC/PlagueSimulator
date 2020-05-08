@@ -7,7 +7,7 @@ namespace Model.Environment
 {
     public class AgentEnvironment : MonoBehaviour
     {
-        private List<CitizenBody> m_citizenList = new List<CitizenBody>();
+        private readonly List<CitizenBody> m_citizenList = new List<CitizenBody>();
 
         private int m_sickNumber = 0;
     

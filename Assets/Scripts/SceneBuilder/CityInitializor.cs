@@ -43,9 +43,10 @@ namespace SceneBuilder
             {
 
                 // Instantiate House prefab
-                var position = new Vector3(map.transform.position.x + Random.Range(0, width) - width / 2,
-                    map.transform.position.y + 0,
-                    map.transform.position.z + Random.Range(0, height) - height / 2);
+                var mapPosition = map.transform.position;
+                var position = new Vector3(mapPosition.x + Random.Range(0, width) - (float)width / 2,
+                    mapPosition.y + 0,
+                    mapPosition.z + Random.Range(0, height) - (float)height / 2);
                 var house = Instantiate(housePrefab,
                     position, 
                     Quaternion.identity);
