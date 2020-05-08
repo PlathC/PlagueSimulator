@@ -878,15 +878,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6271007dbdf4001478b6db039829714e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_simulationSceneName: Scenes/Simulation
-  m_launchSimulationScene: {fileID: 1690244762}
-  m_populationDensitySlider: {fileID: 576590893}
-  m_populationDensityValue: {fileID: 1483110941}
-  m_infectivitySlider: {fileID: 15387506}
-  m_infectivityValue: {fileID: 1599488449}
-  m_stressLevelSlider: {fileID: 1000463841}
-  m_stressLevelValue: {fileID: 1504877558}
-  m_simulationData: {fileID: 0}
+  simulationSceneName: Simulation
+  launchSimulationScene: {fileID: 1690244762}
+  populationDensitySlider: {fileID: 576590893}
+  populationDensityValue: {fileID: 1483110941}
+  infectivitySlider: {fileID: 15387506}
+  infectivityValue: {fileID: 1599488449}
+  stressLevelSlider: {fileID: 1000463841}
+  stressLevelValue: {fileID: 1504877558}
+  simulationData: {fileID: 0}
 --- !u!1 &576590891
 GameObject:
   m_ObjectHideFlags: 0

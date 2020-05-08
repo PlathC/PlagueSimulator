@@ -318,11 +318,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82fd5617e4c7f2142bb5fc96cd5e3d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_simulationData: {fileID: 0}
-  m_environment: {fileID: 438373652}
-  m_housePrefab: {fileID: 8682600332690965040, guid: 8b28efb749a89964da88b54a73f26d0f,
+  environment: {fileID: 438373652}
+  housePrefab: {fileID: 8682600332690965040, guid: 8b28efb749a89964da88b54a73f26d0f,
     type: 3}
-  m_citizenPrefab: {fileID: 2167683049525064491, guid: f4268521a3cbbe74db5e0cf9b0b4af8c,
+  citizenPrefab: {fileID: 2167683049525064491, guid: f4268521a3cbbe74db5e0cf9b0b4af8c,
     type: 3}
 --- !u!4 &497344814
 Transform:
@@ -542,8 +541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e75b9a5df07484c9a006727d878b6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_simulationData: {fileID: 0}
-  m_simulationDataText: {fileID: 1733013567}
+  simulationDataText: {fileID: 1733013567}
 --- !u!1 &1214741813
 GameObject:
   m_ObjectHideFlags: 0

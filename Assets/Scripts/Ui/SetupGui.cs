@@ -9,6 +9,7 @@ namespace Ui
 {
     public class SetupGui : MonoBehaviour
     {
+        
         #region UiObjects
         [SerializeField]
         private string simulationSceneName;
@@ -30,23 +31,21 @@ namespace Ui
         [SerializeField]
         private Text stressLevelValue;
         #endregion // UiObjects
-
-        [SerializeField]
-        private SimulationData simulationData;
-
+        
         private AsyncOperation m_openSimulationScene;
+        private SimulationData simulationData;
 
         // Use this for initialization
         private void Start()
         {
-            launchSimulationScene.onClick.AddListener(LoadButton);
-            populationDensitySlider.onValueChanged.AddListener(UpdatePopulationDensityValue);
+            launchSimulationScene.onClick.AddListener(() => LoadButton());
+            populationDensitySlider.onValueChanged.AddListener(f => UpdatePopulationDensityValue(f));
             UpdatePopulationDensityValue(populationDensitySlider.value);
 
-            infectivitySlider.onValueChanged.AddListener(UpdatInfectivityValue);
+            infectivitySlider.onValueChanged.AddListener(f => UpdatInfectivityValue(f));
             UpdatInfectivityValue(infectivitySlider.value);
 
-            stressLevelSlider.onValueChanged.AddListener(UpdateStressLevelValue);
+            stressLevelSlider.onValueChanged.AddListener(f => UpdateStressLevelValue(f));
             UpdateStressLevelValue(stressLevelSlider.value);
         }
 

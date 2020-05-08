@@ -7,8 +7,6 @@ namespace SceneBuilder
 {
     public class CityInitializor : MonoBehaviour
     {
-        [SerializeField]
-        private SimulationData simulationData = null;
 
         [SerializeField]
         private AgentEnvironment environment = null;
@@ -23,9 +21,11 @@ namespace SceneBuilder
 
         #endregion //PrefabsFields
 
+        
+        private SimulationData simulationData = null;
+
         private void Start()
         {
-        
             simulationData = ScriptableObject.FindObjectOfType<SimulationData>();
         
             var map = GameObject.FindGameObjectWithTag("Map");
@@ -41,7 +41,6 @@ namespace SceneBuilder
 
             for (uint i = 0; i < simulationData.populationDensity; i++)
             {
-
                 // Instantiate House prefab
                 var mapPosition = map.transform.position;
                 var position = new Vector3(mapPosition.x + Random.Range(0, width) - (float)width / 2,

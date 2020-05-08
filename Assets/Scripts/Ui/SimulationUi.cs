@@ -8,22 +8,19 @@ namespace Ui
     public class SimulationUi : MonoBehaviour
     {
         [SerializeField]
-        private SimulationData simulationData;
-
-        [SerializeField]
         private Text simulationDataText;
 
-        // Use this for initialization
+        private SimulationData m_simulationData;
+
         void Start()
         {
-            simulationData = ScriptableObject.FindObjectOfType<SimulationData>();
-            simulationDataText.text += $"{simulationData.ToString()} : " +
-                                         $"Density {simulationData.populationDensity} | " +
-                                         $"Infectivity {simulationData.infectivity} | " +
-                                         $"Stress Level {simulationData.stressLevel}";
+            m_simulationData = ScriptableObject.FindObjectOfType<SimulationData>();
+            simulationDataText.text += $"{m_simulationData.ToString()} : " +
+                                         $"Density {m_simulationData.populationDensity.ToString()} | " +
+                                         $"Infectivity {m_simulationData.infectivity.ToString()} | " +
+                                         $"Stress Level {m_simulationData.stressLevel.ToString()}";
         }
 
-        // Update is called once per frame
         void Update()
         {
 
