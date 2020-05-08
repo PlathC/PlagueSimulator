@@ -1,4 +1,5 @@
-﻿using Model.Environment;
+﻿using System.Linq;
+using Model.Environment;
 using UnityEngine;
 
 namespace Model.Agents
@@ -21,6 +22,30 @@ namespace Model.Agents
         // Update is called once per frame
         void Update()
         {
+            if(m_citizenBody.SocialStress > m_citizenBody.SocialThresh && m_citizenBody.PositionState != PositionStateEnum.ReturningHome)
+            {
+                if(m_citizenBody.PositionState != PositionStateEnum.IsMoving)
+                {
+                    var closestAgent = m_citizenBody.GetClosestAgents();
+                    if (closestAgent != null && closestAgent.Any())
+                    {
+                        int index = Random.Range(0,closestAgent.Count);
+                        m_destination = closestAgent[index].transform.position;
+                        m_citizenBody.MoveTo(m_destination);
+                    }
+                }
+                else
+                {
+                    m_citizenBody.MoveTo(m_destination);
+                }
+            
+            }
+            else
+            {
+                m_citizenBody.ReturnHome();
+            }
+
+            /*
             if(m_citizenBody.SocialStress > m_citizenBody.SocialThresh)
             {
                 if(m_citizenBody.PositionState != PositionStateEnum.IsMoving)
@@ -40,8 +65,8 @@ namespace Model.Agents
             else
             {
                 m_citizenBody.ReturnHome();
-            }
-            
+            }*/
+
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Model.Data;
 using Model.Environment;
 using UnityEngine;
@@ -51,6 +52,8 @@ namespace Model.Agents
                     agentEnvironment.NotifyAgentModification(new StorageData(m_state, transform.position));
             }
         }
+        
+        private static readonly int ColorProperty = Shader.PropertyToID("_Color");
 
         public PositionStateEnum PositionState => m_positionStateEnum;
 
@@ -69,12 +72,13 @@ namespace Model.Agents
 
         private float m_outStress = .0f;
         private float m_outStressThresh = 100f;
-
         private float m_positionCloseThresh = 0.5f;
 
         private Vector3 m_homePosition;
-        private static readonly int ColorProperty = Shader.PropertyToID("_Color");
 
+        [SerializeField] private GameObject agentDetectionPrefab; 
+        private GameObject m_agentDetection;
+        
         // Start is called before the first frame update
         private void Start()
         {
@@ -83,6 +87,8 @@ namespace Model.Agents
             
             m_socialGrowthRate = Random.Range(.05f, .3f);
             m_socialStressThresh = Random.Range(10f, 100f);
+
+            m_agentDetection = Instantiate(agentDetectionPrefab, transform);
         }
 
         private void Update()
@@ -103,9 +109,22 @@ namespace Model.Agents
 
         public void ReturnHome()
         {
+            m_positionStateEnum = PositionStateEnum.ReturningHome;
             transform.position = Vector3.MoveTowards(transform.position, m_homePosition, speed * Time.deltaTime);
             if (Vector3.Distance(transform.position, m_homePosition) < m_positionCloseThresh)
                 m_positionStateEnum = PositionStateEnum.AtHome;
+        }
+
+        public List<CitizenBody> GetClosestAgents()
+        {
+            AgentDetection detection = m_agentDetection.GetComponent<AgentDetection>();
+
+            if (detection == null) return null;
+            
+            var closestAgent = detection.CitizenList.Select(agent => new Tuple<float, CitizenBody>(Vector3.Distance(transform.position, agent.transform.position), agent)).ToList();
+            closestAgent.Sort((x, y) => y.Item1.CompareTo(x.Item1));
+
+            return closestAgent.GetRange(0, closestAgent.Count > 10 ? 10 : closestAgent.Count).Select(agent => agent.Item2).ToList();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -143,6 +162,7 @@ namespace Model.Agents
     public enum PositionStateEnum
     {
         IsMoving,
+        ReturningHome,
         AtHome,
         NotMoving
     }

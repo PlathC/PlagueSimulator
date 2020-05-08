@@ -96,7 +96,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa1adf5352ea59747b782999b94e5e8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_body: {fileID: 0}
 --- !u!114 &5344696056152967665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,7 +108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d350314dc8f98504f80ee9e6539fe729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speed: 20
+  speed: 5
+  agentDetectionPrefab: {fileID: 5031017439361813924, guid: cce0cb20ac4bcf949935f5ef9b140d82,
+    type: 3}
 --- !u!135 &3033161137534541184
 SphereCollider:
   m_ObjectHideFlags: 0
