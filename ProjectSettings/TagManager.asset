@@ -6,6 +6,7 @@ TagManager:
   tags:
   - City
   - Map
+  - AgentEnvironment
   layers:
   - Default
   - TransparentFX

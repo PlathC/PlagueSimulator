@@ -4,7 +4,10 @@ using System.Collections;
 
 public class AgentEnvironment : MonoBehaviour
 {
-    List<CitizenBody> m_citizenList;
+    private List<CitizenBody> m_citizenList = new List<CitizenBody>();
+
+    private int sickNumber = 0;
+
     // Use this for initialization
     void Start()
     {
@@ -15,13 +18,19 @@ public class AgentEnvironment : MonoBehaviour
     void Update()
     {
 
-
-
     }
 
-    public float GetVirusContagiousity()
+    public void NotifyAgentModification(StorageData old)
     {
-        return 1f;
+        if (old.State == SicknessState.Infected)
+            sickNumber++;
+
+        Debug.Log(sickNumber);
+    }
+
+    public bool GetVirusContagiousity()
+    {
+        return true;
     }
 
     public void UpdateAgentList()
@@ -33,6 +42,8 @@ public class AgentEnvironment : MonoBehaviour
         foreach(GameObject agent in agents)
         {
             m_citizenList.Add(agent.GetComponent<CitizenBody>());
+            if (agent.GetComponent<CitizenBody>().State == SicknessState.Infected)
+                sickNumber++;
         }
     }
 }
