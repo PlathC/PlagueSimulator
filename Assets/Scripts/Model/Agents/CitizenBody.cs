@@ -98,9 +98,12 @@ namespace Model.Agents
             m_socialStress += m_socialGrowthRate;
             m_outStress += 0.1f;
         }
-
+        
         public void MoveTo(Vector3 position)
         {
+            // TODO: More complex movements such as velocity based  
+            // TODO: Skip other agents while walk
+            
             Vector3 positionToCheck = Vector3.MoveTowards(transform.position, position, speed * Time.deltaTime);
             
             if (!m_environment.IsOnMapRelative(positionToCheck))
