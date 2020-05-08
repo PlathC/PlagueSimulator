@@ -1,15 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Model.Agents;
 using UnityEngine;
 
-public struct StorageData
+namespace Model.Data
 {
-    public SicknessState State;
-    public Vector3 Position;
-
-    public StorageData(SicknessState state, Vector3 position)
+    public struct StorageData
     {
-        State = state;
-        Position = position;
+        public SicknessState State;
+        public Vector3 Position;
+
+        public StorageData(SicknessState state, Vector3 position)
+        {
+            State = state;
+            Position = position;
+        }
     }
 }

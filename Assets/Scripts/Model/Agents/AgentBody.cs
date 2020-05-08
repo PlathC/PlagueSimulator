@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public abstract class AgentBody : MonoBehaviour
+namespace Model.Agents
 {
+    public abstract class AgentBody : MonoBehaviour
+    {
 
+    }
 }
