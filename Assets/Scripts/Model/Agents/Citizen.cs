@@ -7,9 +7,11 @@ public class Citizen : Agent
 
     private Vector3 destination;
 
+
     // Use this for initialization
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         m_citizenBody = gameObject.GetComponent<CitizenBody>();
     }
 

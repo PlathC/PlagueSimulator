@@ -7,8 +7,6 @@ public class CitizenBody : AgentBody
     private SicknessState m_state;
     private PositionState m_positionState = PositionState.AtHome;
 
-    //ADD AN ID
-
     public SicknessState State
     {
         get { return m_state; }
@@ -32,8 +30,17 @@ public class CitizenBody : AgentBody
                     color = Color.black;
                     break;
             }
-            gameObject.GetComponent<Renderer>().material.SetColor("_Color", color);
-            GameObject.FindGameObjectWithTag("AgentEnvironment").GetComponent<AgentEnvironment>().NotifyAgentModification(new StorageData(m_state, transform.position));
+            var renderer = gameObject.GetComponent<Renderer>();
+            if(renderer)
+                renderer.material.SetColor("_Color", color);
+
+            var env = GameObject.FindGameObjectWithTag("AgentEnvironment");
+            if(env)
+            {
+                var agentEnvironment = env.GetComponent<AgentEnvironment>();
+                if (agentEnvironment)
+                    agentEnvironment.NotifyAgentModification(new StorageData(m_state, transform.position));
+            }
         }
     }
 
