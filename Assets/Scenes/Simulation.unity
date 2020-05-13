@@ -322,6 +322,8 @@ MonoBehaviour:
     type: 3}
   citizenPrefab: {fileID: 2167683049525064491, guid: f4268521a3cbbe74db5e0cf9b0b4af8c,
     type: 3}
+  mayorPrefab: {fileID: 3717282592769203599, guid: 3dfccc440062826469db3c82bf1f185d,
+    type: 3}
 --- !u!4 &497344814
 Transform:
   m_ObjectHideFlags: 0
