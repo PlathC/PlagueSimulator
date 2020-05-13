@@ -22,8 +22,7 @@ namespace Model.Agents
 
         private void Update()
         {
-            m_currentState.action();
-            m_currentState = m_currentState.next();
+            m_currentState = m_currentState.Action();
         }
     }
 }

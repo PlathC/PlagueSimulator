@@ -11,6 +11,6 @@ namespace Model.Agents.States.Mayor
             m_environment = environment;
         }
 
-        public abstract IState action();
+        public abstract IState Action();
     }
 }

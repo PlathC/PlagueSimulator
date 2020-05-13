@@ -8,7 +8,7 @@ namespace Model.Agents.States.Mayor
         {
         }
         
-        public override IState action()
+        public override IState Action()
         {
             throw new System.NotImplementedException();
         }

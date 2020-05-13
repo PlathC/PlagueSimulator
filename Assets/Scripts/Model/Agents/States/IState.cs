@@ -2,6 +2,6 @@
 {
     public interface IState
     {
-        IState action();
+        IState Action();
     }
 }
