@@ -45,7 +45,7 @@ namespace Model.Environment
 
         public void NotifyAgentModification(StorageData old)
         {
-            if (old.State == SicknessState.Infected)
+            if (old.State == CitizenBody.SicknessState.Infected)
                 m_sickNumber++;
         }
 
@@ -63,7 +63,7 @@ namespace Model.Environment
             foreach(var agent in agents)
             {
                 m_citizenList.Add(agent.GetComponent<CitizenBody>());
-                if (agent.GetComponent<CitizenBody>().State == SicknessState.Infected)
+                if (agent.GetComponent<CitizenBody>().CurrentSickness == CitizenBody.SicknessState.Infected)
                     m_sickNumber++;
             }
         }
