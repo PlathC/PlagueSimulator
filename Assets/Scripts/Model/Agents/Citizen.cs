@@ -21,11 +21,6 @@ namespace Model.Agents
         
         private IState m_currentState;
 
-        public Citizen()
-        {
-            m_currentState = new Idle(this);
-        }
-
         protected override void Start()
         {
             base.Start();
@@ -39,6 +34,8 @@ namespace Model.Agents
             var agentEnvironment = env.GetComponent<AgentEnvironment>();
             if (agentEnvironment)
                 m_environment = agentEnvironment;
+            
+            m_currentState = new Idle(this);
         }
 
         void Update()

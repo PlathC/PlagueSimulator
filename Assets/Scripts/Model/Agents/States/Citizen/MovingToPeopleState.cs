@@ -13,11 +13,17 @@ namespace Model.Agents.States.Citizen
 
         public void FindNewAgentToFollow()
         {
-            var closestAgent = m_citizen.Body.GetClosestAgents();
-            if (closestAgent != null && closestAgent.Any())
+            var closestAgents = m_citizen.Body.GetClosestAgents();
+            if (closestAgents != null && closestAgents.Any())
             {
-                int index = Random.Range(0, closestAgent.Count);
-                m_bodyToFollow = closestAgent[index];
+                CitizenBody closestAgent = null;
+                do
+                {
+                    int index = Random.Range(0, closestAgents.Count);
+                    closestAgent = closestAgents[index];
+                } while (!m_bodyToFollow || closestAgent != m_bodyToFollow);
+               
+                m_bodyToFollow = closestAgent;
             }
         }
 
@@ -35,7 +41,9 @@ namespace Model.Agents.States.Citizen
                 {
                     FindNewAgentToFollow();
                 }
-                FollowCurrentBody();
+                
+                if(m_bodyToFollow)
+                    FollowCurrentBody();
 
                 return this;
             }
