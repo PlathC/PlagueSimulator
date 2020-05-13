@@ -8,11 +8,7 @@ namespace Model.Agents.States.Mayor
         {
         }
 
-        public override void action()
-        {
-        }
-
-        public override IState next()
+        public override IState action()
         {
             //TODO 
             throw new System.NotImplementedException();
