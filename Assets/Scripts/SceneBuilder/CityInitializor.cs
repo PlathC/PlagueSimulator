@@ -15,6 +15,9 @@ namespace SceneBuilder
         [SerializeField]
         private GameObject citizenPrefab = null;
 
+        [SerializeField] 
+        private GameObject mayorPrefab = null;
+
         #endregion //PrefabsFields
 
         private AgentEnvironment m_environment = null;
@@ -62,6 +65,8 @@ namespace SceneBuilder
             }
 
             m_environment.UpdateAgentList();
+
+            Instantiate(mayorPrefab);
         }
 
         void Update()
