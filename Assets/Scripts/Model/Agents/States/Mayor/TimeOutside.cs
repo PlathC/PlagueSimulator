@@ -7,7 +7,7 @@ namespace Model.Agents.States.Mayor
         public TimeOutside(AgentEnvironment environment, Agents.Mayor mayor) : base(environment, mayor)
         {
         }
-
+        
         public override IState Action()
         {
             m_mayor.DecreaseTimeOutside(.05f);

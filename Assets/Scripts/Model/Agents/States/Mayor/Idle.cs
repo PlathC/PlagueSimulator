@@ -8,6 +8,7 @@ namespace Model.Agents.States.Mayor
         public Idle(AgentEnvironment environment, Agents.Mayor mayor) : base(environment, mayor)
         {
         }
+        
         public override IState Action()
         {
             if (m_environment.LastGrowthRate > 0)
