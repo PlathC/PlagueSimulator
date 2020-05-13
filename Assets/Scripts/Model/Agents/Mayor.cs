@@ -9,21 +9,30 @@ namespace Model.Agents
 {
     public class Mayor : Agent
     {
-        [SerializeField]
-        private AgentEnvironment environment;
+        private AgentEnvironment m_environment = null;
 
-        private IState m_currentState;
-
-        protected override void Start()
+        private IState m_currentState = null;
+        
+        public void SetEnvironment(AgentEnvironment environment)
         {
-            base.Start();
-            m_currentState = new Idle(environment);
+            m_environment = environment;
+            m_currentState = new Idle(m_environment, this);
         }
 
         private void Update()
         {
-            m_currentState.action();
-            m_currentState = m_currentState.next();
+            if(m_currentState != null)
+                m_currentState = m_currentState.Action();
+        }
+
+        public void DecreaseTimeOutside(float delta)
+        {
+            m_environment.MaximumTimeOutside -= delta;
+        }
+
+        public void IncreaseSocialDistancing(float delta)
+        {
+            m_environment.SocialDistancing += delta;
         }
     }
 }

@@ -167,7 +167,7 @@ namespace Model.Agents
             if (otherBody.PositionState != PositionStateEnum.AtHome &&
                 otherBody.m_currentSickness == SicknessState.Infected)
             {
-                if (m_environment.GetVirusContagiousity())
+                if (m_environment.GetVirusContagiosity())
                 {
                     CurrentSickness = SicknessState.Infected;
                 }

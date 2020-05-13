@@ -1,4 +1,5 @@
-﻿using Model.Data;
+﻿using Model.Agents;
+using Model.Data;
 using Model.Environment;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -66,7 +67,8 @@ namespace SceneBuilder
 
             m_environment.UpdateAgentList();
 
-            Instantiate(mayorPrefab);
+            var mayor = Instantiate(mayorPrefab);
+            mayor.GetComponent<Mayor>().SetEnvironment(m_environment);
         }
 
         void Update()

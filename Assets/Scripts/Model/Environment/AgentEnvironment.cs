@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Model.Agents;
 using Model.Data;
 using UnityEngine;
@@ -10,7 +11,20 @@ namespace Model.Environment
         private readonly List<CitizenBody> m_citizenList = new List<CitizenBody>();
         
         private int m_sickNumber = 0;
-    
+        public int SickNumber
+        {
+            get => m_sickNumber;
+            set => m_sickNumber = value;
+        }
+        
+        private List<int> m_growthRate = new List<int>(){0};
+        private int m_lastSickNumber = 0;
+
+        public int LastGrowthRate => m_growthRate.Last();
+
+        public float MaximumTimeOutside { get; set; } = 0;
+        public float SocialDistancing { get; set; } = 0;
+
         public List<CitizenBody> CitizenList => m_citizenList;
 
         public struct MapCoordinates
@@ -35,6 +49,13 @@ namespace Model.Environment
         void Start()
         {
             simulationData = ScriptableObject.FindObjectOfType<SimulationData>();
+            InvokeRepeating(nameof(UpdateGrowthRate), 2f, 2f);
+        }
+
+        private void UpdateGrowthRate()
+        {
+            m_growthRate.Add(m_sickNumber - m_lastSickNumber);
+            m_lastSickNumber = m_sickNumber;
         }
 
         // Update is called once per frame
@@ -49,7 +70,7 @@ namespace Model.Environment
                 m_sickNumber++;
         }
 
-        public bool GetVirusContagiousity()
+        public bool GetVirusContagiosity()
         {
             return Random.Range(0f,1f) > simulationData.infectivity;
         }
