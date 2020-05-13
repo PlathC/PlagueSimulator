@@ -5,6 +5,7 @@ using System.Linq;
 using Model.Data;
 using Model.Environment;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -25,8 +26,12 @@ namespace Model.Agents
         
         #region Stress
         private float m_outStress = .0f;
-        private float m_outStressThresh = 100f;
+        public float OutStress => m_outStress;
 
+        private float m_outStressThresh;
+        public float OutStressThresh => m_outStressThresh;
+
+        
         private float m_socialGrowthRate;
         private float m_socialStressThresh;
         
@@ -99,6 +104,7 @@ namespace Model.Agents
         
         private AgentEnvironment m_environment;
         private static readonly int SicknessShader = Shader.PropertyToID("_Color");
+        private NavMeshAgent m_navmesh;
 
         private void Start()
         {
@@ -114,10 +120,12 @@ namespace Model.Agents
             
             m_socialGrowthRate = Random.Range(.05f, .3f);
             m_socialStressThresh = Random.Range(10f, 100f);
-
+            m_outStressThresh = Random.Range(10f, 100f);
+            
             m_agentDetection = Instantiate(agentDetectionPrefab, transform);
             m_agentDetection.transform.localPosition = new Vector3(0, 0, 0);
             m_detection = m_agentDetection.GetComponent<AgentDetection>();
+            m_navmesh = GetComponent<NavMeshAgent>();
         }
 
         private void Update()
@@ -131,16 +139,9 @@ namespace Model.Agents
         {
             // TODO: More complex movements such as velocity based  
             // TODO: Skip other agents while walk
-            
-            Vector3 positionToCheck = Vector3.MoveTowards(transform.position, position, speed * Time.deltaTime);
-
-            if (!m_environment)
+            if (!m_navmesh)
                 return;
-            
-            if (!m_environment.IsOnMapRelative(positionToCheck))
-                return;
-            
-            transform.position = positionToCheck;
+            m_navmesh.destination = position;
         }
 
         public List<CitizenBody> GetClosestAgents()
@@ -150,8 +151,7 @@ namespace Model.Agents
             var closestAgent = 
                 m_detection.CitizenList.Select(agent => new Tuple<float, CitizenBody>(Vector3.Distance(transform.position, agent.transform.position), agent)).ToList();
             closestAgent.Sort((agent1, agent2) => agent2.Item1.CompareTo(agent1.Item1));
-            closestAgent.RemoveAll(agent1 => agent1.Item2.m_positionState == PositionStateEnum.AtHome);
-            closestAgent.RemoveAll(agent1 => agent1.Item2.m_positionState == PositionStateEnum.ReturningHome);
+            closestAgent.RemoveAll(agent1 => agent1.Item2.m_positionState != PositionStateEnum.IsMoving);
             
             return closestAgent.GetRange(0, closestAgent.Count > 10 ? 10 : closestAgent.Count).Select(agent => agent.Item2).ToList();
         }
