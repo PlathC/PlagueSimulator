@@ -2,7 +2,6 @@
 {
     public interface IState
     {
-        void action();
-        IState next();
+        IState action();
     }
 }
