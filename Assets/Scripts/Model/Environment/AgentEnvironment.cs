@@ -66,7 +66,7 @@ namespace Model.Environment
 
         public void NotifyAgentModification(StorageData old)
         {
-            if (old.State == CitizenBody.SicknessState.Infected)
+            if (old.sicknessState == CitizenBody.SicknessState.Infected)
                 m_sickNumber++;
         }
 

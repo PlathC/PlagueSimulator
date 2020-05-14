@@ -5,13 +5,15 @@ namespace Model.Data
 {
     public struct StorageData
     {
-        public CitizenBody.SicknessState State;
-        public Vector3 Position;
+        public CitizenBody.PositionState positionState;
+        public CitizenBody.SicknessState sicknessState;
+        public Vector3 position;
 
-        public StorageData(CitizenBody.SicknessState state, Vector3 position)
+        public StorageData(CitizenBody.PositionState nPositionState, CitizenBody.SicknessState nSicknessState, Vector3 nPosition)
         {
-            State = state;
-            Position = position;
+            positionState = nPositionState;
+            sicknessState = nSicknessState;
+            position = nPosition;
         }
     }
 }
