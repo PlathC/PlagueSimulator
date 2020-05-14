@@ -51,7 +51,7 @@ namespace Model.Agents
             Dead
         }
 
-        public enum PositionStateEnum
+        public enum PositionState
         {
             IsMoving,
             ReturningHome,
@@ -59,11 +59,17 @@ namespace Model.Agents
             NotMoving
         }
         
-        private PositionStateEnum m_positionState = PositionStateEnum.AtHome;
-        public PositionStateEnum PositionState
+        private PositionState m_currentPositionState = PositionState.AtHome;
+        public PositionState CurrentPositionState
         {
-            get => m_positionState;
-            set => m_positionState = value;
+            get => m_currentPositionState;
+            set
+            {
+                m_currentPositionState = value;
+                m_environment.NotifyAgentModification(
+                    new StorageData(m_currentPositionState, m_currentSickness, transform.position)
+                );
+            }
         }
         
         private SicknessState m_currentSickness;
@@ -96,7 +102,9 @@ namespace Model.Agents
                 if(goRenderer)
                     goRenderer.material.SetColor("_Color", color);
                 
-                m_environment.NotifyAgentModification(new StorageData(m_currentSickness, transform.position));
+                m_environment.NotifyAgentModification(
+                    new StorageData(m_currentPositionState, m_currentSickness, transform.position)
+                    );
             }
         }
         #endregion
@@ -130,7 +138,7 @@ namespace Model.Agents
 
         private void Update()
         {
-            if (PositionState == PositionStateEnum.IsMoving) return;
+            if (CurrentPositionState == PositionState.IsMoving) return;
             m_socialStress += m_socialGrowthRate;
             m_outStress += 0.1f;
         }
@@ -151,20 +159,20 @@ namespace Model.Agents
             var closestAgent = 
                 m_detection.CitizenList.Select(agent => new Tuple<float, CitizenBody>(Vector3.Distance(transform.position, agent.transform.position), agent)).ToList();
             closestAgent.Sort((agent1, agent2) => agent2.Item1.CompareTo(agent1.Item1));
-            closestAgent.RemoveAll(agent1 => agent1.Item2.m_positionState != PositionStateEnum.IsMoving);
+            closestAgent.RemoveAll(agent1 => agent1.Item2.m_currentPositionState != PositionState.IsMoving);
             
             return closestAgent.GetRange(0, closestAgent.Count > 10 ? 10 : closestAgent.Count).Select(agent => agent.Item2).ToList();
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (PositionState == PositionStateEnum.AtHome) return;
+            if (CurrentPositionState == PositionState.AtHome) return;
             if (CurrentSickness != SicknessState.Healthy) return;
             
             var otherBody = other.gameObject.GetComponent<CitizenBody>();
             if (!otherBody) return;
             
-            if (otherBody.PositionState != PositionStateEnum.AtHome &&
+            if (otherBody.CurrentPositionState != PositionState.AtHome &&
                 otherBody.m_currentSickness == SicknessState.Infected)
             {
                 if (m_environment.GetVirusContagiosity())

@@ -39,6 +39,7 @@ namespace Model.Agents.States.Citizen
                     
             m_destination.x += Random.Range(-radiusX, radiusX);
             m_destination.z += Random.Range(-radiusZ, radiusZ);
+            m_citizen.Body.CurrentPositionState = CitizenBody.PositionState.IsMoving;
         }
 
         public override IState Action()

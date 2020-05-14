@@ -6,12 +6,13 @@ namespace Model.Agents.States.Citizen
     public class MovingToPeopleState : CitizenState
     {
         private CitizenBody m_bodyToFollow;
+        private uint m_countWithoutSocial = 0;
         
         public MovingToPeopleState(Agents.Citizen citizen) : base(citizen)
         {
         }
 
-        public void FindNewAgentToFollow()
+        private void FindNewAgentToFollow()
         {
             var closestAgents = m_citizen.Body.GetClosestAgents();
             if (closestAgents != null && closestAgents.Any())
@@ -25,11 +26,16 @@ namespace Model.Agents.States.Citizen
                
                 m_bodyToFollow = closestAgent;
             }
+            else
+            {
+                m_countWithoutSocial++;
+            }
         }
 
         private void FollowCurrentBody()
         {
             m_citizen.Body.MoveTo(m_bodyToFollow.transform.position);
+            m_citizen.Body.CurrentPositionState = CitizenBody.PositionState.IsMoving;
         }
         
         public override IState Action()
@@ -45,6 +51,9 @@ namespace Model.Agents.States.Citizen
                 if(m_bodyToFollow)
                     FollowCurrentBody();
 
+                if (m_countWithoutSocial > 5)
+                    return new MovingToRandomState(m_citizen);
+                
                 return this;
             }
             return new Idle(m_citizen);
