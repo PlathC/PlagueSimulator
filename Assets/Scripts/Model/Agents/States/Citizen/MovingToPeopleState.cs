@@ -18,13 +18,16 @@ namespace Model.Agents.States.Citizen
             if (closestAgents != null && closestAgents.Any())
             {
                 CitizenBody closestAgent = null;
+                uint count = 0;
                 do
                 {
                     int index = Random.Range(0, closestAgents.Count);
                     closestAgent = closestAgents[index];
-                } while (!m_bodyToFollow || closestAgent != m_bodyToFollow);
-               
-                m_bodyToFollow = closestAgent;
+                    count++;
+                } while ((!m_bodyToFollow || closestAgent != m_bodyToFollow) && count < 10);
+                
+                if(count < 10)
+                    m_bodyToFollow = closestAgent;
             }
             else
             {
