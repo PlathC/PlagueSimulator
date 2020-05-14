@@ -45,6 +45,8 @@ namespace Model.Environment
         public MapCoordinates Coordinates { get => m_coordinates; set => m_coordinates = value; }
         
         private SimulationData simulationData = null;
+
+        private List<StorageData> m_save = new List<StorageData>();
         
         void Start()
         {
@@ -66,6 +68,7 @@ namespace Model.Environment
 
         public void NotifyAgentModification(StorageData old)
         {
+            m_save.Add(old);
             if (old.sicknessState == CitizenBody.SicknessState.Infected)
                 m_sickNumber++;
         }

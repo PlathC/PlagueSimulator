@@ -66,9 +66,6 @@ namespace Model.Agents
             set
             {
                 m_currentPositionState = value;
-                m_environment.NotifyAgentModification(
-                    new StorageData(m_currentPositionState, m_currentSickness, transform.position)
-                );
             }
         }
         
