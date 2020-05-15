@@ -113,6 +113,8 @@ namespace Model.Agents
         private AgentEnvironment m_environment;
         private static readonly int SicknessShader = Shader.PropertyToID("_Color");
         private NavMeshAgent m_navmesh;
+        private float m_speed;
+        private List<CitizenBody> m_closestAgentsForSickness = new List<CitizenBody>();
 
         private void Start()
         {
@@ -138,6 +140,8 @@ namespace Model.Agents
             Instantiate(agentProximityPrefab, transform);
 
             m_navmesh = GetComponent<NavMeshAgent>();
+
+            m_speed = Random.Range(.8f, 2f);
         }
 
         private void Update()
@@ -166,7 +170,7 @@ namespace Model.Agents
             if (!m_navmesh)
                 return;
             //m_navmesh.destination = position;
-            transform.position = Vector3.MoveTowards(transform.position, position, 0.07f);
+            transform.position = Vector3.MoveTowards(transform.position, position, 0.05f*m_speed);
         }
 
         public List<CitizenBody> GetClosestAgents()
@@ -182,32 +186,73 @@ namespace Model.Agents
             return closestAgent.GetRange(0, closestAgent.Count > 10 ? 10 : closestAgent.Count).Select(agent => agent.Item2).ToList();
         }
 
-        public void NotifyAgentProximity(CitizenBody other)
+        private bool m_isBecomeInfectedInvoked = false;
+
+        public void NotifyAgentProximityEnter(CitizenBody other)
         {
             if (!other.CompareTag("Player")) return;
             if (CurrentPositionState == PositionState.AtHome) return;
 
-            if(other.CurrentPositionState != PositionState.AtHome)
-                m_socialStress -= m_socialGrowthRate;
-
-            if (other.CurrentPositionState != PositionState.AtHome)
+            m_closestAgentsForSickness.Add(other);
+            if (!m_isBecomeInfectedInvoked)
             {
-                m_socialStress -= m_socialStress / 2;
-                if (m_socialStress < 1)
-                    m_socialStress = 0;
+                InvokeRepeating(nameof(IsBecomeInfected), 0f, 1f);
+                m_isBecomeInfectedInvoked = true;
             }
-            
-            if (CurrentSickness != SicknessState.Healthy) return;
+        }
+        
+        public void NotifyAgentProximityExit(CitizenBody other)
+        {
+            if (!other.CompareTag("Player")) return;
+            if (CurrentPositionState == PositionState.AtHome) return;
 
-            //var distance = Vector3.Distance(transform.position, other.transform.position) < 3;
-            if (other.CurrentPositionState != PositionState.AtHome &&
-                other.m_currentSickness == SicknessState.Infected)// && distance)
+            m_closestAgentsForSickness.Remove(other);
+        }
+
+        private void IsBecomeInfected()
+        {
+            if (!m_closestAgentsForSickness.Any())
             {
-                if (m_environment.GetVirusContagiosity())
+                CancelInvoke(nameof(IsBecomeInfected));
+                m_isBecomeInfectedInvoked = false;
+                return;
+            }
+
+            CitizenBody closestAgent = m_closestAgentsForSickness[0];
+            m_closestAgentsForSickness.RemoveAll(agent1 => !agent1);
+
+            try
+            {
+                foreach (var agent in m_closestAgentsForSickness)
                 {
-                    CurrentSickness = SicknessState.Infected;
-                    
+                    if (Vector3.Distance(agent.transform.position, transform.position) <
+                        Vector3.Distance(closestAgent.transform.position, transform.position))
+                        closestAgent = agent;
                 }
+            
+                if (closestAgent.CurrentPositionState != PositionState.AtHome)
+                {
+                    m_socialStress -= m_socialStress / 2;
+                    if (m_socialStress < 1)
+                        m_socialStress = 0;
+                }
+                
+                float distance = Vector3.Distance(closestAgent.transform.position, transform.position);
+                
+                if (CurrentSickness != SicknessState.Healthy) return;
+            
+                if (closestAgent.CurrentPositionState != PositionState.AtHome &&
+                    closestAgent.m_currentSickness == SicknessState.Infected)// && distance)
+                {
+                    if (m_environment.GetVirusContagiosity(distance))
+                    {
+                        CurrentSickness = SicknessState.Infected;
+                    }
+                }
+            }
+            catch (MissingReferenceException e)
+            {
+                // ignored
             }
         }
     }
