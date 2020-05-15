@@ -125,10 +125,10 @@ namespace Model.Agents
             CurrentSickness = Random.Range(0, 10) > 8 ? SicknessState.Infected : SicknessState.Healthy;
             
             m_socialGrowthRate = Random.Range(.001f, .01f);
-            m_socialStressThresh = Random.Range(10f, 100f);
+            m_socialStressThresh = Random.Range(1f, 10f);
             
             m_outStressGrowthRate = Random.Range(.001f, .01f);
-            m_outStressThresh = Random.Range(10f, 15f);
+            m_outStressThresh = Random.Range(1f, 15f);
             
             m_agentDetection = Instantiate(agentDetectionPrefab, transform);
             m_detection = m_agentDetection.GetComponent<AgentDetection>();
