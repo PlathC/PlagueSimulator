@@ -53,12 +53,16 @@ namespace Model.Agents.States.Citizen
         
         public override IState Action()
         {
-            var needToSeePeople = m_citizen.Body.SocialStress > m_citizen.Body.SocialThresh;
+            var needToSeePeople = m_citizen.Body.SocialStress >= 0.1;
             if (needToSeePeople)
             {
                 if (!m_bodyToFollow)
                 {
                     FindNewAgentToFollow();
+                }
+                else
+                {
+                    Debug.Log("FOUUUUUUUUUUUUUUUUUUUUUUND");
                 }
 
                 if (m_bodyToFollow)

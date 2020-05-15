@@ -9,12 +9,13 @@ namespace Model.Agents.States.Citizen
            
         public MovingToRandomState(Agents.Citizen citizen) : base(citizen)
         {
+            m_citizen.Body.CurrentPositionState = CitizenBody.PositionState.IsMoving;
         }
 
         private void ComputeNewDirection()
         {
-            float radiusX = 5f;
-            float radiusZ = 5f;
+            float radiusX = 10f;
+            float radiusZ = 10f;
             m_destination = m_citizen.HomePosition;
             float widthSteps = (float) m_citizen.AssociatedEnvironment.Coordinates.width / 2;
             float heightSteps = (float) m_citizen.AssociatedEnvironment.Coordinates.height / 2;
@@ -39,12 +40,11 @@ namespace Model.Agents.States.Citizen
                     
             m_destination.x += Random.Range(-radiusX, radiusX);
             m_destination.z += Random.Range(-radiusZ, radiusZ);
-            m_citizen.Body.CurrentPositionState = CitizenBody.PositionState.IsMoving;
         }
 
         public override IState Action()
         {
-            var needToGoOutside =  m_citizen.Body.OutStress > m_citizen.Body.OutStressThresh;
+            var needToGoOutside =  m_citizen.Body.OutStress >= 0.1;
 
             //if (!needToGoOutside) 
             //    return new Idle(m_citizen);
@@ -60,7 +60,9 @@ namespace Model.Agents.States.Citizen
 
                 if(needToSeePeople)
                     return new MovingToPeopleState(m_citizen);
-                return new Idle(m_citizen);
+                if(!needToGoOutside)
+                    return new Idle(m_citizen);
+                m_destination = Vector3.zero;
             }
             
             return this;
