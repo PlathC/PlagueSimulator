@@ -886,7 +886,6 @@ MonoBehaviour:
   infectivityValue: {fileID: 1599488449}
   stressLevelSlider: {fileID: 1000463841}
   stressLevelValue: {fileID: 1504877558}
-  simulationData: {fileID: 0}
 --- !u!1 &576590891
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,7 +969,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 151231943}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1000
+  m_MaxValue: 2000
   m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
