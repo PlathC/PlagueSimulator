@@ -79,7 +79,7 @@ namespace Model.Environment
                 m_deadNb++;
         }
 
-        public bool GetVirusContagiosity()
+        public bool GetVirusContagiosity(float distance)
         {
             return Random.Range(0f, 1f) < simulationData.infectivity;
         }

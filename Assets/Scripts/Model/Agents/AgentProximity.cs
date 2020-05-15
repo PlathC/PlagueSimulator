@@ -18,7 +18,18 @@ namespace Model.Agents
 
             if (other.GetType() == typeof(BoxCollider))
             {
-                m_parent.NotifyAgentProximity(otherBody);
+                m_parent.NotifyAgentProximityEnter(otherBody);
+            }
+        }
+        
+        private void OnTriggerExit(Collider other)
+        {
+            var otherBody = other.gameObject.GetComponentInParent<CitizenBody>();
+            if (!otherBody) return;
+
+            if (other.GetType() == typeof(BoxCollider))
+            {
+                m_parent.NotifyAgentProximityExit(otherBody);
             }
         }
     }
