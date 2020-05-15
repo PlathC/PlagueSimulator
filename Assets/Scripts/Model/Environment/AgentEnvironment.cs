@@ -75,9 +75,19 @@ namespace Model.Environment
 
         public bool GetVirusContagiosity()
         {
-            return Random.Range(0f,1f) > simulationData.infectivity;
+            return Random.Range(0f, 1f) > simulationData.infectivity;
         }
 
+        public float GetTimeBeforeEndOfDisease()
+        {
+            return 100f;
+        }
+        
+        public bool ImmunedOrDead()
+        {
+            return Random.Range(0f, 1f) > 0.5f;
+        }
+        
         public void UpdateAgentList()
         {
             m_citizenList.Clear();

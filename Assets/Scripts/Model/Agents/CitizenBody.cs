@@ -67,7 +67,8 @@ namespace Model.Agents
             get => m_currentPositionState;
             set => m_currentPositionState = value;
         }
-        
+
+        private float m_timeAtInfection = -1;
         private SicknessState m_currentSickness;
         public SicknessState CurrentSickness
         {
@@ -84,11 +85,13 @@ namespace Model.Agents
                         break;
                     case SicknessState.Infected:
                         color = Color.red;
+                        m_timeAtInfection = Time.time;
                         break;
                     case SicknessState.Immuned:
                         color = Color.gray;
                         break;
                     case SicknessState.Dead:
+                        Destroy(gameObject);
                         color = Color.black;
                         break;
                     default:
@@ -104,7 +107,6 @@ namespace Model.Agents
             }
         }
         #endregion
-        
         
         private AgentEnvironment m_environment;
         private static readonly int SicknessShader = Shader.PropertyToID("_Color");
@@ -146,8 +148,12 @@ namespace Model.Agents
                 m_outStress += m_outStressGrowthRate;
             }
             
-            
             m_socialStress += m_socialGrowthRate;
+
+            if (m_currentSickness == SicknessState.Infected && m_environment.GetTimeBeforeEndOfDisease() < m_timeAtInfection)
+            {
+                CurrentSickness = m_environment.ImmunedOrDead() ? SicknessState.Immuned : SicknessState.Dead;
+            }
         }
         
         public void MoveTo(Vector3 position)
@@ -197,6 +203,7 @@ namespace Model.Agents
                 if (m_environment.GetVirusContagiosity())
                 {
                     CurrentSickness = SicknessState.Infected;
+                    
                 }
             }
         }
