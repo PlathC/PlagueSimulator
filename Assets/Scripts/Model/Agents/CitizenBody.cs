@@ -104,7 +104,7 @@ namespace Model.Agents
                     goRenderer.material.SetColor("_Color", color);
                 
                 m_environment.NotifyAgentModification(
-                    new StorageData(m_currentPositionState, m_currentSickness, transform.position)
+                    new StorageData(Time.time, m_currentPositionState, m_currentSickness, transform.position)
                     );
             }
         }
@@ -158,7 +158,7 @@ namespace Model.Agents
             
             m_socialStress += m_socialGrowthRate;
 
-            if (m_currentSickness == SicknessState.Infected && m_environment.GetDiseaseDuration() < m_timeAtInfection)
+            if (m_currentSickness == SicknessState.Infected && m_environment.GetDiseaseDuration() < (Time.time - m_timeAtInfection))
             {
                 CurrentSickness = m_environment.ImmunedOrDead() ? SicknessState.Immuned : SicknessState.Dead;
             }

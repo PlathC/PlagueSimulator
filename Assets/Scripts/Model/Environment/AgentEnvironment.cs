@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Model.Agents;
 using Model.Data;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Model.Environment
 {
@@ -65,7 +68,21 @@ namespace Model.Environment
         // Update is called once per frame
         void Update()
         {
+        }
+        
+        void OnApplicationQuit()
+        {
+            Debug.Log("Application ending after " + Time.time + " seconds");
+            
+            string csvSick = "Time,PositionState,SickingState,x,y,z\n";
+            csvSick += String.Join("\n", m_save.Select(x => x.ToString()).ToArray());
 
+            Debug.Log("Saving data to " + Application.persistentDataPath);
+            string destination = Application.persistentDataPath + "/data.csv";
+            var file = File.Create(destination);
+            var sw = new StreamWriter(file);
+            sw.Write(csvSick);
+            file.Close();
         }
 
         public void NotifyAgentModification(StorageData old)
