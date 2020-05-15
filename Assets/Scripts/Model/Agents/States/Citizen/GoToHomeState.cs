@@ -5,7 +5,9 @@ namespace Model.Agents.States.Citizen
     public class GoToHomeState : CitizenState 
     {
         public GoToHomeState(Agents.Citizen citizen) : base(citizen)
-        {}
+        {
+            citizen.Body.CurrentPositionState = CitizenBody.PositionState.ReturningHome;
+        }
 
         public override IState Action()
         {

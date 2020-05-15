@@ -11,12 +11,14 @@ namespace Model.Environment
         private readonly List<CitizenBody> m_citizenList = new List<CitizenBody>();
         
         private int m_sickNumber = 0;
-        public int SickNumber
-        {
-            get => m_sickNumber;
-            set => m_sickNumber = value;
-        }
-        
+        public int SickNumber => m_sickNumber;
+
+        private int m_immunedNb = 0;
+        public int ImmunedNumber => m_immunedNb;
+
+        private int m_deadNb = 0;
+        public int DeadNumber => m_deadNb;
+
         private List<int> m_growthRate = new List<int>(){0};
         private int m_lastSickNumber = 0;
 
@@ -71,13 +73,27 @@ namespace Model.Environment
             m_save.Add(old);
             if (old.sicknessState == CitizenBody.SicknessState.Infected)
                 m_sickNumber++;
+            else if (old.sicknessState == CitizenBody.SicknessState.Immuned)
+                m_immunedNb++;
+            else if (old.sicknessState == CitizenBody.SicknessState.Dead)
+                m_deadNb++;
         }
 
         public bool GetVirusContagiosity()
         {
-            return Random.Range(0f,1f) > simulationData.infectivity;
+            return Random.Range(0f, 1f) < simulationData.infectivity;
         }
 
+        public float GetDiseaseDuration()
+        {
+            return 20f;
+        }
+        
+        public bool ImmunedOrDead()
+        {
+            return Random.Range(0f, 1f) > 0.5f;
+        }
+        
         public void UpdateAgentList()
         {
             m_citizenList.Clear();

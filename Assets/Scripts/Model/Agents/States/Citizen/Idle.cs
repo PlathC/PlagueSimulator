@@ -4,6 +4,7 @@
     {
         public Idle(Agents.Citizen citizen) : base(citizen)
         {
+            citizen.Body.CurrentPositionState = CitizenBody.PositionState.NotMoving;
         }
         
         public override IState Action()

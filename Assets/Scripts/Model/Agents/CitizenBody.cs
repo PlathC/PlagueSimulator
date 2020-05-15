@@ -69,7 +69,8 @@ namespace Model.Agents
             get => m_currentPositionState;
             set => m_currentPositionState = value;
         }
-        
+
+        private float m_timeAtInfection = -1;
         private SicknessState m_currentSickness;
         public SicknessState CurrentSickness
         {
@@ -86,11 +87,13 @@ namespace Model.Agents
                         break;
                     case SicknessState.Infected:
                         color = Color.red;
+                        m_timeAtInfection = Time.time;
                         break;
                     case SicknessState.Immuned:
-                        color = Color.gray;
+                        color = Color.blue;
                         break;
                     case SicknessState.Dead:
+                        Destroy(gameObject);
                         color = Color.black;
                         break;
                     default:
@@ -106,7 +109,6 @@ namespace Model.Agents
             }
         }
         #endregion
-        
         
         private AgentEnvironment m_environment;
         private static readonly int SicknessShader = Shader.PropertyToID("_Color");
@@ -153,8 +155,12 @@ namespace Model.Agents
                 m_outStress += m_outStressGrowthRate;
             }
             
-            
             m_socialStress += m_socialGrowthRate;
+
+            if (m_currentSickness == SicknessState.Infected && m_environment.GetDiseaseDuration() < m_timeAtInfection)
+            {
+                CurrentSickness = m_environment.ImmunedOrDead() ? SicknessState.Immuned : SicknessState.Dead;
+            }
         }
         
         public void MoveTo(Vector3 position)
@@ -169,9 +175,10 @@ namespace Model.Agents
         public List<CitizenBody> GetClosestAgents()
         {
             if (!m_detection) return null;
-            
+            m_detection.CitizenList.RemoveAll(agent1 => !agent1);
+
             var closestAgent = 
-                m_detection.CitizenList.Select(agent => new Tuple<float, CitizenBody>(Vector3.Distance(transform.position, agent.transform.position), agent)).ToList();
+                m_detection.CitizenList.Select(selector: agent => new Tuple<float, CitizenBody>(Vector3.Distance(transform.position, agent.transform.position), agent)).ToList();
             closestAgent.Sort((agent1, agent2) => agent2.Item1.CompareTo(agent1.Item1));
             closestAgent.RemoveAll(agent1 => agent1.Item2.m_currentPositionState != PositionState.IsMoving);
             
@@ -201,6 +208,7 @@ namespace Model.Agents
                 if (m_environment.GetVirusContagiosity())
                 {
                     CurrentSickness = SicknessState.Infected;
+                    
                 }
             }
         }
