@@ -11,19 +11,22 @@ namespace Model.Agents
         
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player"))
-                return; 
-
-            if(other.GetType() == typeof(BoxCollider) && other.gameObject.GetComponent<CitizenBody>() != null)
-                m_citizenList.Add(other.gameObject.GetComponent<CitizenBody>());
+            if (other.GetType() != typeof(BoxCollider)) return;
+            
+            var otherBody = other.gameObject.GetComponentInParent<CitizenBody>();
+            if (!otherBody) return;
+                
+            m_citizenList.Add(otherBody);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("Player"))
-                return;
-            if(other.GetType() == typeof(BoxCollider) && other.gameObject.GetComponent<CitizenBody>() != null)
-                m_citizenList.Remove(other.gameObject.GetComponent<CitizenBody>());
+            if (other.GetType() != typeof(BoxCollider)) return;
+            
+            var otherBody = other.gameObject.GetComponentInParent<CitizenBody>();
+            if (!otherBody) return;
+                
+            m_citizenList.Remove(otherBody);
         }
     }
 }

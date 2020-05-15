@@ -60,10 +60,6 @@ namespace Model.Agents.States.Citizen
                 {
                     FindNewAgentToFollow();
                 }
-                else
-                {
-                    Debug.Log("FOUUUUUUUUUUUUUUUUUUUUUUND");
-                }
 
                 if (m_bodyToFollow)
                 {

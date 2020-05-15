@@ -20,6 +20,8 @@ namespace Model.Agents
         private GameObject m_agentDetection;
         private AgentDetection m_detection;
 
+        [SerializeField] private GameObject agentProximityPrefab;
+
         [SerializeField]
         private float speed = 5f;
         #endregion
@@ -125,14 +127,16 @@ namespace Model.Agents
             CurrentSickness = Random.Range(0, 10) > 8 ? SicknessState.Infected : SicknessState.Healthy;
             
             m_socialGrowthRate = Random.Range(.001f, .01f);
-            m_socialStressThresh = Random.Range(10f, 100f);
+            m_socialStressThresh = Random.Range(1f, 10f);
             
             m_outStressGrowthRate = Random.Range(.001f, .01f);
-            m_outStressThresh = Random.Range(10f, 15f);
+            m_outStressThresh = Random.Range(1f, 15f);
             
             m_agentDetection = Instantiate(agentDetectionPrefab, transform);
-            m_agentDetection.transform.localPosition = new Vector3(0, 0, 0);
             m_detection = m_agentDetection.GetComponent<AgentDetection>();
+
+            Instantiate(agentProximityPrefab, transform);
+
             m_navmesh = GetComponent<NavMeshAgent>();
         }
 
@@ -177,28 +181,26 @@ namespace Model.Agents
             return closestAgent.GetRange(0, closestAgent.Count > 10 ? 10 : closestAgent.Count).Select(agent => agent.Item2).ToList();
         }
 
-        private void OnTriggerEnter(Collider other)
+        public void NotifyAgentProximity(CitizenBody other)
         {
-            if (!other.gameObject.CompareTag("Player")) return;
+            if (!other.CompareTag("Player")) return;
             if (CurrentPositionState == PositionState.AtHome) return;
-            
-            
-            var otherBody = other.gameObject.GetComponent<CitizenBody>();
-            if (!otherBody) return;
 
-            
-            var distance = Vector3.Distance(transform.position, other.transform.position) < 3;
-            if (otherBody.CurrentPositionState != PositionState.AtHome && distance)
+            if(other.CurrentPositionState != PositionState.AtHome)
+                m_socialStress -= m_socialGrowthRate;
+
+            if (other.CurrentPositionState != PositionState.AtHome)
             {
                 m_socialStress -= m_socialStress / 2;
                 if (m_socialStress < 1)
                     m_socialStress = 0;
             }
-                
+            
             if (CurrentSickness != SicknessState.Healthy) return;
 
-            if (otherBody.CurrentPositionState != PositionState.AtHome &&
-                otherBody.m_currentSickness == SicknessState.Infected && distance)
+            //var distance = Vector3.Distance(transform.position, other.transform.position) < 3;
+            if (other.CurrentPositionState != PositionState.AtHome &&
+                other.m_currentSickness == SicknessState.Infected)// && distance)
             {
                 if (m_environment.GetVirusContagiosity())
                 {
