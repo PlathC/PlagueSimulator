@@ -13,8 +13,8 @@ namespace Model.Agents.States.Citizen
 
         private void ComputeNewDirection()
         {
-            float radiusX = 50f;
-            float radiusZ = 50f;
+            float radiusX = 5f;
+            float radiusZ = 5f;
             m_destination = m_citizen.HomePosition;
             float widthSteps = (float) m_citizen.AssociatedEnvironment.Coordinates.width / 2;
             float heightSteps = (float) m_citizen.AssociatedEnvironment.Coordinates.height / 2;

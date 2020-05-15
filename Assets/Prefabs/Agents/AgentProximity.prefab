@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5031017439361813924
+--- !u!1 &6377938681372024263
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,23 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7232911543127124502}
-  - component: {fileID: 4198340403700410270}
-  - component: {fileID: 2094087619946815963}
+  - component: {fileID: 2782251587294552133}
+  - component: {fileID: 8998144743053603678}
+  - component: {fileID: 3876337947811448770}
   m_Layer: 0
-  m_Name: AgentDetection
+  m_Name: AgentProximity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7232911543127124502
+--- !u!4 &2782251587294552133
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5031017439361813924}
+  m_GameObject: {fileID: 6377938681372024263}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,28 +32,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &4198340403700410270
-SphereCollider:
+--- !u!65 &8998144743053603678
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5031017439361813924}
+  m_GameObject: {fileID: 6377938681372024263}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 15
+  m_Size: {x: 2, y: 1, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2094087619946815963
+--- !u!114 &3876337947811448770
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5031017439361813924}
+  m_GameObject: {fileID: 6377938681372024263}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cafb7b303784f7548bfefee10721af8a, type: 3}
+  m_Script: {fileID: 11500000, guid: b84d454c0d28bac4c8048f51ef984410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
