@@ -181,7 +181,7 @@ namespace Model.Agents
             if (!otherBody) return;
             
             if(otherBody.CurrentPositionState != PositionState.AtHome)
-                m_socialStress = 0f;
+                m_socialStress -= m_socialGrowthRate;
             
             if (CurrentSickness != SicknessState.Healthy) return;
 
