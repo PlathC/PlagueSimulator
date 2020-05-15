@@ -5,7 +5,7 @@ namespace Model.Agents.States.Citizen
     public class MovingToRandomState : CitizenState
     {
         private bool m_computeDestination = true;
-        private Vector3 m_destination;
+        private Vector3 m_destination = Vector3.zero;
            
         public MovingToRandomState(Agents.Citizen citizen) : base(citizen)
         {
@@ -49,7 +49,7 @@ namespace Model.Agents.States.Citizen
             if (!needToGoOutside) 
                 return new Idle(m_citizen);
             
-            if(m_computeDestination)
+            if(m_destination == Vector3.zero)
                 ComputeNewDirection();
                 
             m_citizen.Body.MoveTo(m_destination);

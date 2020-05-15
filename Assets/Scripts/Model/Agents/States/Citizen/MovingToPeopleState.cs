@@ -21,12 +21,25 @@ namespace Model.Agents.States.Citizen
             {
                 CitizenBody closestAgent = null;
                 uint count = 0;
+                bool exit = false;
                 do
                 {
                     int index = Random.Range(0, closestAgents.Count);
                     closestAgent = closestAgents[index];
                     count++;
-                } while ((!m_bodyToFollow || closestAgent != m_bodyToFollow) && count < 10);
+                    
+                    if (!m_bodyToFollow)
+                        exit = true;
+                    else
+                    {
+                        if (closestAgent != m_bodyToFollow || closestAgents.Count == 1)
+                            exit = true;
+                        else if (count >= 10)
+                            exit = true;
+                    }
+                    
+                } while (!exit);
+                    //((!m_bodyToFollow || closestAgent != m_bodyToFollow) && count < 10);
                 
                 if(count < 10)
                     m_bodyToFollow = closestAgent;
@@ -51,14 +64,14 @@ namespace Model.Agents.States.Citizen
 
                 if (m_bodyToFollow)
                 {
-                    if(Vector3.Distance(m_bodyToFollow.transform.position, m_citizen.Body.transform.position) > 1f)
+                    if(Vector3.Distance(m_bodyToFollow.transform.position, m_citizen.Body.transform.position) < 1f)
                         return new Idle(m_citizen);
                     
                     FollowCurrentBody();
                 }
                 else
                     return new MovingToRandomState(m_citizen);
-                
+
                 return this;
             }
             return new Idle(m_citizen);

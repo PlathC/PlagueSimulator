@@ -152,10 +152,10 @@ namespace Model.Agents
         public void MoveTo(Vector3 position)
         {
             // TODO: More complex movements such as velocity based  
-            // if (!m_navmesh)
-            //     return;
-            // m_navmesh.destination = position;
-            transform.position = Vector3.MoveTowards(transform.position, position, 0.5f);
+            if (!m_navmesh)
+                return;
+            //m_navmesh.destination = position;
+            transform.position = Vector3.MoveTowards(transform.position, position, 0.07f);
         }
 
         public List<CitizenBody> GetClosestAgents()
@@ -172,6 +172,7 @@ namespace Model.Agents
 
         private void OnTriggerEnter(Collider other)
         {
+            if (!other.gameObject.CompareTag("Player")) return;
             if (CurrentPositionState == PositionState.AtHome) return;
             if (CurrentSickness != SicknessState.Healthy) return;
             
