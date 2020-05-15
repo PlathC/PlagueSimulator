@@ -111,6 +111,7 @@ namespace Model.Agents
         private AgentEnvironment m_environment;
         private static readonly int SicknessShader = Shader.PropertyToID("_Color");
         private NavMeshAgent m_navmesh;
+        private float m_speed;
 
         private void Start()
         {
@@ -136,6 +137,8 @@ namespace Model.Agents
             Instantiate(agentProximityPrefab, transform);
 
             m_navmesh = GetComponent<NavMeshAgent>();
+
+            m_speed = Random.Range(.8f, 2f);
         }
 
         private void Update()
@@ -160,7 +163,7 @@ namespace Model.Agents
             if (!m_navmesh)
                 return;
             //m_navmesh.destination = position;
-            transform.position = Vector3.MoveTowards(transform.position, position, 0.07f);
+            transform.position = Vector3.MoveTowards(transform.position, position, 0.05f*m_speed);
         }
 
         public List<CitizenBody> GetClosestAgents()
@@ -192,7 +195,6 @@ namespace Model.Agents
             
             if (CurrentSickness != SicknessState.Healthy) return;
 
-            //var distance = Vector3.Distance(transform.position, other.transform.position) < 3;
             if (other.CurrentPositionState != PositionState.AtHome &&
                 other.m_currentSickness == SicknessState.Infected)// && distance)
             {
