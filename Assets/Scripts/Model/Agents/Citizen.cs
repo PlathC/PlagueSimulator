@@ -18,7 +18,7 @@ namespace Model.Agents
         private Vector3 m_homePosition;
         public Vector3 HomePosition => m_homePosition;
 
-        public float PositionCloseThresh { get; } = 0.5f;
+        public float PositionCloseThresh { get; } = 1f;
 
         private IState m_currentState;
 

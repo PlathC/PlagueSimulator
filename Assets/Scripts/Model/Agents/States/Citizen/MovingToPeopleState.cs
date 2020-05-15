@@ -68,8 +68,6 @@ namespace Model.Agents.States.Citizen
                     
                     FollowCurrentBody();
                 }
-                else
-                    return new MovingToRandomState(m_citizen);
 
                 return this;
             }

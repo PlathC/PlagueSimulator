@@ -146,6 +146,7 @@ namespace Model.Agents
                 m_outStress += m_outStressGrowthRate;
             }
             
+            
             m_socialStress += m_socialGrowthRate;
         }
         
