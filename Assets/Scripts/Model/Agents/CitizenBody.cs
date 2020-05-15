@@ -101,7 +101,7 @@ namespace Model.Agents
                 }
                 var goRenderer = gameObject.GetComponent<Renderer>();
                 if(goRenderer)
-                    goRenderer.material.SetColor("_Color", color);
+                    goRenderer.material.SetColor(SicknessShader, color);
                 
                 m_environment.NotifyAgentModification(
                     new StorageData(Time.time, m_currentPositionState, m_currentSickness, transform.position)
