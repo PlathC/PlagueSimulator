@@ -15,9 +15,9 @@
                 return new MovingToPeopleState(m_citizen);
             if(needToGoOutside)
                 return new MovingToRandomState(m_citizen);
-            
             if(m_citizen.Body.CurrentPositionState != CitizenBody.PositionState.AtHome)
                 return new GoToHomeState(m_citizen);
+            
             return this;
         }
     }
