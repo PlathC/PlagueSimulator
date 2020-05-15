@@ -122,10 +122,10 @@ namespace Model.Agents
             
             CurrentSickness = Random.Range(0, 10) > 8 ? SicknessState.Infected : SicknessState.Healthy;
             
-            m_socialGrowthRate = Random.Range(.05f, .3f);
+            m_socialGrowthRate = Random.Range(.001f, .01f);
             m_socialStressThresh = Random.Range(10f, 100f);
             
-            m_outStressGrowthRate = Random.Range(.05f, .3f);
+            m_outStressGrowthRate = Random.Range(.001f, .01f);
             m_outStressThresh = Random.Range(10f, 15f);
             
             m_agentDetection = Instantiate(agentDetectionPrefab, transform);
@@ -138,7 +138,7 @@ namespace Model.Agents
         {
             if (CurrentPositionState == PositionState.IsMoving)
             {
-                m_outStress -= m_outStressGrowthRate;
+                m_outStress -= m_outStress/ 2;
                 m_outStress = (m_outStress < 0) ? 0 : m_outStress;
             }
             else
@@ -179,13 +179,18 @@ namespace Model.Agents
             
             var otherBody = other.gameObject.GetComponent<CitizenBody>();
             if (!otherBody) return;
+
             
-            if(otherBody.CurrentPositionState != PositionState.AtHome)
-                m_socialStress -= m_socialGrowthRate;
-            
+            var distance = Vector3.Distance(transform.position, other.transform.position) < 3;
+            if (otherBody.CurrentPositionState != PositionState.AtHome && distance)
+            {
+                m_socialStress -= m_socialStress / 2;
+                if (m_socialStress < 1)
+                    m_socialStress = 0;
+            }
+                
             if (CurrentSickness != SicknessState.Healthy) return;
 
-            var distance = Vector3.Distance(transform.position, other.transform.position) < 3;
             if (otherBody.CurrentPositionState != PositionState.AtHome &&
                 otherBody.m_currentSickness == SicknessState.Infected && distance)
             {
