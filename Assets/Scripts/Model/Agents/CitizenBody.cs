@@ -90,7 +90,7 @@ namespace Model.Agents
                         m_timeAtInfection = Time.time;
                         break;
                     case SicknessState.Immuned:
-                        color = Color.gray;
+                        color = Color.blue;
                         break;
                     case SicknessState.Dead:
                         Destroy(gameObject);
@@ -154,7 +154,7 @@ namespace Model.Agents
             
             m_socialStress += m_socialGrowthRate;
 
-            if (m_currentSickness == SicknessState.Infected && m_environment.GetTimeBeforeEndOfDisease() < m_timeAtInfection)
+            if (m_currentSickness == SicknessState.Infected && m_environment.GetDiseaseDuration() < m_timeAtInfection)
             {
                 CurrentSickness = m_environment.ImmunedOrDead() ? SicknessState.Immuned : SicknessState.Dead;
             }
@@ -172,9 +172,10 @@ namespace Model.Agents
         public List<CitizenBody> GetClosestAgents()
         {
             if (!m_detection) return null;
-            
+            m_detection.CitizenList.RemoveAll(agent1 => !agent1);
+
             var closestAgent = 
-                m_detection.CitizenList.Select(agent => new Tuple<float, CitizenBody>(Vector3.Distance(transform.position, agent.transform.position), agent)).ToList();
+                m_detection.CitizenList.Select(selector: agent => new Tuple<float, CitizenBody>(Vector3.Distance(transform.position, agent.transform.position), agent)).ToList();
             closestAgent.Sort((agent1, agent2) => agent2.Item1.CompareTo(agent1.Item1));
             closestAgent.RemoveAll(agent1 => agent1.Item2.m_currentPositionState != PositionState.IsMoving);
             
