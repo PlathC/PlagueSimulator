@@ -39,7 +39,6 @@ namespace Model.Agents.States.Citizen
                     }
                     
                 } while (!exit);
-                    //((!m_bodyToFollow || closestAgent != m_bodyToFollow) && count < 10);
                 
                 if(count < 10)
                     m_bodyToFollow = closestAgent;
@@ -64,7 +63,7 @@ namespace Model.Agents.States.Citizen
 
                 if (m_bodyToFollow)
                 {
-                    if(Vector3.Distance(m_bodyToFollow.transform.position, m_citizen.Body.transform.position) < 1f)
+                    if(Vector3.Distance(m_bodyToFollow.transform.position, m_citizen.transform.position) < 1f)
                         return new Idle(m_citizen);
                     
                     FollowCurrentBody();
@@ -74,8 +73,8 @@ namespace Model.Agents.States.Citizen
 
                 return this;
             }
+
             return new Idle(m_citizen);
-            
         }
     }
 }

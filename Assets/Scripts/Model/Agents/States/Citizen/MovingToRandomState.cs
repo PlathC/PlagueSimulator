@@ -54,7 +54,7 @@ namespace Model.Agents.States.Citizen
                 
             m_citizen.Body.MoveTo(m_destination);
             
-            if(Vector3.Distance(m_destination, m_citizen.Body.transform.position) < m_citizen.PositionCloseThresh)
+            if(Vector3.Distance(m_destination, m_citizen.transform.position) < m_citizen.PositionCloseThresh)
                 return new Idle(m_citizen);
             
             return this;

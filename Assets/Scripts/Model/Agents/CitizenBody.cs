@@ -174,13 +174,15 @@ namespace Model.Agents
         {
             if (!other.gameObject.CompareTag("Player")) return;
             if (CurrentPositionState == PositionState.AtHome) return;
-            m_socialStress = 0f;
-
-            if (CurrentSickness != SicknessState.Healthy) return;
+            
             
             var otherBody = other.gameObject.GetComponent<CitizenBody>();
             if (!otherBody) return;
             
+            if(otherBody.CurrentPositionState != PositionState.AtHome)
+                m_socialStress = 0f;
+            
+            if (CurrentSickness != SicknessState.Healthy) return;
             if (otherBody.CurrentPositionState != PositionState.AtHome &&
                 otherBody.m_currentSickness == SicknessState.Infected)
             {
@@ -189,7 +191,6 @@ namespace Model.Agents
                     CurrentSickness = SicknessState.Infected;
                 }
             }
-
         }
     }
 }
