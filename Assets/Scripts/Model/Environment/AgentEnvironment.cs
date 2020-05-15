@@ -74,31 +74,14 @@ namespace Model.Environment
         {
             Debug.Log("Application ending after " + Time.time + " seconds");
             
-            var sickList = m_save.Where(item => item.sicknessState == CitizenBody.SicknessState.Infected).ToList();
-            var immunedList = m_save.Where(item => item.sicknessState == CitizenBody.SicknessState.Immuned).ToList();
-            var deadList = m_save.Where(item => item.sicknessState == CitizenBody.SicknessState.Dead).ToList();
-            
-            string csvSick = String.Join(",", sickList.Select(x => x.ToString() + "\n").ToArray());
-            string csvImmuned = String.Join(",", immunedList.Select(x => x.ToString()  + "\n").ToArray());
-            string csvDead = String.Join(",", deadList.Select(x => x.ToString() + "\n").ToArray());
+            string csvSick = "Time,PositionState,SickingState,x,y,z\n";
+            csvSick += String.Join("\n", m_save.Select(x => x.ToString()).ToArray());
 
             Debug.Log("Saving data to " + Application.persistentDataPath);
-            string destination = Application.persistentDataPath + "/sickData.csv";
+            string destination = Application.persistentDataPath + "/data.csv";
             var file = File.Create(destination);
             var sw = new StreamWriter(file);
             sw.Write(csvSick);
-            file.Close();
-            
-            destination = Application.persistentDataPath + "/immunedData.csv";
-            file = File.Create(destination);
-            sw = new StreamWriter(file);
-            sw.Write(csvImmuned);
-            file.Close();
-            
-            destination = Application.persistentDataPath + "/deadData.csv";
-            file = File.Create(destination);
-            sw = new StreamWriter(file);
-            sw.Write(csvDead);
             file.Close();
         }
 

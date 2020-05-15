@@ -20,7 +20,8 @@ namespace Model.Data
 
         public override string ToString()
         {
-            return time + "," + positionState.ToString() + "," + sicknessState.ToString() + "," + position.ToString();
+            return time + "," + positionState + "," + sicknessState + "," 
+                   + position.x + "," + position.y + "," + position.z;
         }
     }
 }
