@@ -184,8 +184,10 @@ namespace Model.Agents
                 m_socialStress = 0f;
             
             if (CurrentSickness != SicknessState.Healthy) return;
+
+            var distance = Vector3.Distance(transform.position, other.transform.position) < 3;
             if (otherBody.CurrentPositionState != PositionState.AtHome &&
-                otherBody.m_currentSickness == SicknessState.Infected)
+                otherBody.m_currentSickness == SicknessState.Infected && distance)
             {
                 if (m_environment.GetVirusContagiosity())
                 {
