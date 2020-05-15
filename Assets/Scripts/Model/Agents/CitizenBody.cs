@@ -25,20 +25,22 @@ namespace Model.Agents
         #endregion
         
         #region Stress
-        private float m_outStress = .0f;
-        public float OutStress => m_outStress;
 
+        private float m_outStressGrowthRate;
         private float m_outStressThresh;
+        private float m_outStress = .0f;
+
+        public float OutStress => m_outStress;
         public float OutStressThresh => m_outStressThresh;
 
         
         private float m_socialGrowthRate;
         private float m_socialStressThresh;
-        
         private float m_socialStress = .0f;
+        
         public float SocialStress => m_socialStress;
-
         public float SocialThresh => m_socialStressThresh;
+        
         #endregion
 
         #region BodyStates
@@ -63,10 +65,7 @@ namespace Model.Agents
         public PositionState CurrentPositionState
         {
             get => m_currentPositionState;
-            set
-            {
-                m_currentPositionState = value;
-            }
+            set => m_currentPositionState = value;
         }
         
         private SicknessState m_currentSickness;
@@ -125,7 +124,9 @@ namespace Model.Agents
             
             m_socialGrowthRate = Random.Range(.05f, .3f);
             m_socialStressThresh = Random.Range(10f, 100f);
-            m_outStressThresh = Random.Range(10f, 100f);
+            
+            m_outStressGrowthRate = Random.Range(.05f, .3f);
+            m_outStressThresh = Random.Range(10f, 15f);
             
             m_agentDetection = Instantiate(agentDetectionPrefab, transform);
             m_agentDetection.transform.localPosition = new Vector3(0, 0, 0);
@@ -135,18 +136,26 @@ namespace Model.Agents
 
         private void Update()
         {
-            if (CurrentPositionState == PositionState.IsMoving) return;
+            if (CurrentPositionState == PositionState.IsMoving)
+            {
+                m_outStress -= m_outStressGrowthRate;
+                m_outStress = (m_outStress < 0) ? 0 : m_outStress;
+            }
+            else
+            {
+                m_outStress += m_outStressGrowthRate;
+            }
+            
             m_socialStress += m_socialGrowthRate;
-            m_outStress += 0.1f;
         }
         
         public void MoveTo(Vector3 position)
         {
             // TODO: More complex movements such as velocity based  
-            // TODO: Skip other agents while walk
-            if (!m_navmesh)
-                return;
-            m_navmesh.destination = position;
+            // if (!m_navmesh)
+            //     return;
+            // m_navmesh.destination = position;
+            transform.position = Vector3.MoveTowards(transform.position, position, 0.5f);
         }
 
         public List<CitizenBody> GetClosestAgents()

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Model.Agents.States;
 using Model.Agents.States.Citizen;
 using Model.Environment;
@@ -17,8 +18,8 @@ namespace Model.Agents
         private Vector3 m_homePosition;
         public Vector3 HomePosition => m_homePosition;
 
-        private float m_positionCloseThresh = 0.5f;
-        
+        public float PositionCloseThresh { get; } = 0.5f;
+
         private IState m_currentState;
 
         protected override void Start()
@@ -38,6 +39,17 @@ namespace Model.Agents
             m_currentState = new Idle(this);
         }
 
+        private void OnMouseOver()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                string msg = GetUniqueIdentifier.ToString().Substring(0, 5) + " : " + m_currentState.GetType().FullName;
+                msg += "\nOut : " + m_citizenBody.OutStress;
+                msg += " || Social : " + m_citizenBody.SocialStress;
+                Debug.Log(msg);
+            }
+        }
+        
         void Update()
         {
             m_currentState = m_currentState.Action();

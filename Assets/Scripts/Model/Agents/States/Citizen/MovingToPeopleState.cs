@@ -14,6 +14,8 @@ namespace Model.Agents.States.Citizen
 
         private void FindNewAgentToFollow()
         {
+            //TODO return always null sometimes and create an infinite loop MovingToPeople -> MovingToRandom -> Idle -> MovingToPeople
+            
             var closestAgents = m_citizen.Body.GetClosestAgents();
             if (closestAgents != null && closestAgents.Any())
             {
@@ -28,10 +30,6 @@ namespace Model.Agents.States.Citizen
                 
                 if(count < 10)
                     m_bodyToFollow = closestAgent;
-            }
-            else
-            {
-                m_countWithoutSocial++;
             }
         }
 
@@ -50,11 +48,15 @@ namespace Model.Agents.States.Citizen
                 {
                     FindNewAgentToFollow();
                 }
-                
-                if(m_bodyToFollow)
-                    FollowCurrentBody();
 
-                if (m_countWithoutSocial > 5)
+                if (m_bodyToFollow)
+                {
+                    if(Vector3.Distance(m_bodyToFollow.transform.position, m_citizen.Body.transform.position) > 1f)
+                        return new Idle(m_citizen);
+                    
+                    FollowCurrentBody();
+                }
+                else
                     return new MovingToRandomState(m_citizen);
                 
                 return this;

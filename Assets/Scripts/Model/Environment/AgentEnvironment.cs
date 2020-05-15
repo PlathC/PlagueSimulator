@@ -22,8 +22,8 @@ namespace Model.Environment
 
         public int LastGrowthRate => m_growthRate.Last();
 
-        public float MaximumTimeOutside { get; set; } = 0;
-        public float SocialDistancing { get; set; } = 0;
+        public float MaximumTimeOutside { get; set; } = 500f;
+        public float SocialDistancing { get; set; } = 10f;
 
         public List<CitizenBody> CitizenList => m_citizenList;
 

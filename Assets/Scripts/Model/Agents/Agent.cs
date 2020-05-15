@@ -13,6 +13,7 @@ namespace Model.Agents
 
         protected virtual void Start()
         {
+            m_uniqueIdentifier = Guid.NewGuid();
             m_startTime = Time.time;
         }
     }

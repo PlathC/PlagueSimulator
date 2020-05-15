@@ -46,13 +46,17 @@ namespace Model.Agents.States.Citizen
         {
             var needToGoOutside =  m_citizen.Body.OutStress > m_citizen.Body.OutStressThresh;
 
-            if (!needToGoOutside) return new Idle(m_citizen);
+            if (!needToGoOutside) 
+                return new Idle(m_citizen);
             
-            if(m_computeDestination ||
-               Vector3.Distance(m_destination, m_citizen.Body.transform.position) < 0.1)
+            if(m_computeDestination)
                 ComputeNewDirection();
                 
             m_citizen.Body.MoveTo(m_destination);
+            
+            if(Vector3.Distance(m_destination, m_citizen.Body.transform.position) < m_citizen.PositionCloseThresh)
+                return new Idle(m_citizen);
+            
             return this;
         }
     }
