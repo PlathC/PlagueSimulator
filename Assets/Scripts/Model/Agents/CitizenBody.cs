@@ -104,7 +104,7 @@ namespace Model.Agents
                     goRenderer.material.SetColor("_Color", color);
                 
                 m_environment.NotifyAgentModification(
-                    new StorageData(m_currentPositionState, m_currentSickness, transform.position)
+                    new StorageData(Time.time, m_currentPositionState, m_currentSickness, transform.position)
                     );
             }
         }

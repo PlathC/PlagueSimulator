@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Model.Agents;
 using Model.Data;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Model.Environment
 {
@@ -65,7 +68,38 @@ namespace Model.Environment
         // Update is called once per frame
         void Update()
         {
+        }
+        
+        void OnApplicationQuit()
+        {
+            Debug.Log("Application ending after " + Time.time + " seconds");
+            
+            var sickList = m_save.Where(item => item.sicknessState == CitizenBody.SicknessState.Infected).ToList();
+            var immunedList = m_save.Where(item => item.sicknessState == CitizenBody.SicknessState.Immuned).ToList();
+            var deadList = m_save.Where(item => item.sicknessState == CitizenBody.SicknessState.Dead).ToList();
+            
+            string csvSick = String.Join(",", sickList.Select(x => x.ToString() + "\n").ToArray());
+            string csvImmuned = String.Join(",", immunedList.Select(x => x.ToString()  + "\n").ToArray());
+            string csvDead = String.Join(",", deadList.Select(x => x.ToString() + "\n").ToArray());
 
+            Debug.Log("Saving data to " + Application.persistentDataPath);
+            string destination = Application.persistentDataPath + "/sickData.csv";
+            var file = File.Create(destination);
+            var sw = new StreamWriter(file);
+            sw.Write(csvSick);
+            file.Close();
+            
+            destination = Application.persistentDataPath + "/immunedData.csv";
+            file = File.Create(destination);
+            sw = new StreamWriter(file);
+            sw.Write(csvImmuned);
+            file.Close();
+            
+            destination = Application.persistentDataPath + "/deadData.csv";
+            file = File.Create(destination);
+            sw = new StreamWriter(file);
+            sw.Write(csvDead);
+            file.Close();
         }
 
         public void NotifyAgentModification(StorageData old)
