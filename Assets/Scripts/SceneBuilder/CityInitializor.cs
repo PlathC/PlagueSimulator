@@ -1,9 +1,7 @@
-﻿using System;
-using Model.Agents;
+﻿using Model.Agents;
 using Model.Data;
 using Model.Environment;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace SceneBuilder
@@ -24,7 +22,7 @@ namespace SceneBuilder
         #endregion //PrefabsFields
 
         private AgentEnvironment m_environment = null;
-        private SimulationData simulationData = null;
+        private SimulationData m_simulationData = null;
 
         private void Start()
         {            
@@ -35,10 +33,9 @@ namespace SceneBuilder
             if (agentEnvironment)
                 m_environment = agentEnvironment;
 
-            simulationData = ScriptableObject.FindObjectOfType<SimulationData>();
-        
+            m_simulationData = ScriptableObject.FindObjectOfType<SimulationData>();
+            
             var map = GameObject.FindGameObjectWithTag("Map");
-        
             uint height = 0, width = 0;
         
             if (map.GetComponent<Renderer>() != null)
@@ -51,7 +48,7 @@ namespace SceneBuilder
             m_environment.Coordinates = new AgentEnvironment.MapCoordinates(mapPosition, width, height);
             
             // Instantiate House prefab
-            for (uint i = 0; i < simulationData.populationDensity; i++)
+            for (uint i = 0; i < m_simulationData.populationDensity; i++)
             {
                 var position = new Vector3(mapPosition.x + Random.Range(-(float)width / 2, (float)width / 2),
                     mapPosition.y + 0,
