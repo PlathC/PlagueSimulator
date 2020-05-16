@@ -203,7 +203,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0b8d575d916b96747a74859246c6d8f9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -396,7 +396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82fd5617e4c7f2142bb5fc96cd5e3d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  housePrefab: {fileID: 8682600332690965040, guid: 8b28efb749a89964da88b54a73f26d0f,
+  housePrefab: {fileID: 7797825408275175991, guid: e1df9e2c6de2c304ca55da19be688aa5,
     type: 3}
   citizenPrefab: {fileID: 2167683049525064491, guid: f4268521a3cbbe74db5e0cf9b0b4af8c,
     type: 3}
