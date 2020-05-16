@@ -75,7 +75,7 @@ namespace Model.Agents
         public SicknessState CurrentSickness
         {
             get => m_currentSickness;
-            private set
+            set
             {
                 m_currentSickness = value;
 
@@ -93,7 +93,6 @@ namespace Model.Agents
                         color = Color.blue;
                         break;
                     case SicknessState.Dead:
-                        Destroy(gameObject);
                         color = Color.black;
                         break;
                     default:
@@ -106,6 +105,8 @@ namespace Model.Agents
                 m_environment.NotifyAgentModification(
                     new StorageData(Time.time, m_currentPositionState, m_currentSickness, transform.position)
                     );
+                if(m_currentSickness == SicknessState.Dead)
+                    Destroy(gameObject);
             }
         }
         #endregion
@@ -116,7 +117,7 @@ namespace Model.Agents
         private float m_speed;
         private List<CitizenBody> m_closestAgentsForSickness = new List<CitizenBody>();
 
-        private void Start()
+        private void Awake()
         {
             var env = GameObject.FindGameObjectWithTag("AgentEnvironment");
             if (!env)
@@ -125,9 +126,10 @@ namespace Model.Agents
             var agentEnvironment = env.GetComponent<AgentEnvironment>();
             if (agentEnvironment)
                 m_environment = agentEnvironment;
-            
-            CurrentSickness = Random.Range(0, 10) > 8 ? SicknessState.Infected : SicknessState.Healthy;
-            
+        }
+
+        private void Start()
+        {
             m_socialGrowthRate = Random.Range(.001f, .01f);
             m_socialStressThresh = Random.Range(1f, 10f);
             

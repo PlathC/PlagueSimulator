@@ -64,11 +64,6 @@ namespace Model.Environment
             m_growthRate.Add(m_sickNumber - m_lastSickNumber);
             m_lastSickNumber = m_sickNumber;
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-        }
         
         void OnApplicationQuit()
         {
@@ -103,12 +98,12 @@ namespace Model.Environment
 
         public float GetDiseaseDuration()
         {
-            return 20f;
+            return simulationData.diseaseDuration;
         }
         
         public bool ImmunedOrDead()
         {
-            return Random.Range(0f, 1f) > 0.5f;
+            return Random.Range(0f, 1f) > simulationData.deathStatistic;
         }
         
         public void UpdateAgentList()
@@ -116,12 +111,28 @@ namespace Model.Environment
             m_citizenList.Clear();
 
             var agents = GameObject.FindGameObjectsWithTag("Player");
+            uint immunedNb = (uint) Math.Floor(simulationData.populationDensity * simulationData.launchImmunedNumber);
+            uint sickNb = (uint) Math.Floor(simulationData.populationDensity * simulationData.launchSickNumber);
 
             foreach(var agent in agents)
             {
-                m_citizenList.Add(agent.GetComponent<CitizenBody>());
-                if (agent.GetComponent<CitizenBody>().CurrentSickness == CitizenBody.SicknessState.Infected)
-                    m_sickNumber++;
+                var body = agent.GetComponent<CitizenBody>();
+                m_citizenList.Add(body);
+                   
+                if (immunedNb > 0)
+                {
+                    body.CurrentSickness = CitizenBody.SicknessState.Immuned;
+                    immunedNb--;
+                }
+                else if(sickNb > 0)
+                {
+                    body.CurrentSickness = CitizenBody.SicknessState.Infected;
+                    sickNb--;
+                }
+                else
+                {
+                    body.CurrentSickness = CitizenBody.SicknessState.Healthy;
+                }
             }
         }
 

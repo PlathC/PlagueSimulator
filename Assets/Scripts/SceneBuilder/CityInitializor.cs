@@ -1,8 +1,10 @@
-﻿using Model.Agents;
+﻿using System;
+using Model.Agents;
 using Model.Data;
 using Model.Environment;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace SceneBuilder
 {
@@ -69,11 +71,6 @@ namespace SceneBuilder
 
             var mayor = Instantiate(mayorPrefab);
             mayor.GetComponent<Mayor>().SetEnvironment(m_environment);
-        }
-
-        void Update()
-        {
-
         }
     }
 }
