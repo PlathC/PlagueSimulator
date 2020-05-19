@@ -17,4 +17,5 @@ a defined population using Multi Agent system in Unity.
 ### Contributors
 
 [Simon Perche](https://github.com/Solidras)
+
 [Cyprien Plateau--Holleville](https://github.com/PlathC)
