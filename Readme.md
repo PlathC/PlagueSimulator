@@ -12,3 +12,9 @@ a defined population using Multi Agent system in Unity.
 | Environment                | Done                                                           |
 | Simulation settings        | Done                                                           |
 | Use of real disease models | In dev                                                         |
+
+
+### Contributors
+
+[Simon Perche](https://github.com/Solidras)
+[Cyprien Plateau--Holleville](https://github.com/PlathC)
