@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Model.Agents;
+using Model.Agents.States.Mayor;
 using Model.Data;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 
 namespace Model.Environment
@@ -27,8 +30,8 @@ namespace Model.Environment
 
         public int LastGrowthRate => m_growthRate.Last();
 
-        public float MaximumTimeOutside { get; set; } = 500f;
-        public float SocialDistancing { get; set; } = 10f;
+        public float MaximumTimeOutside { get; set; } = 30f;
+        public float SocialDistancing { get; set; } = 1f;
 
         public List<CitizenBody> CitizenList => m_citizenList;
 
@@ -63,6 +66,9 @@ namespace Model.Environment
         {
             m_growthRate.Add(m_sickNumber - m_lastSickNumber);
             m_lastSickNumber = m_sickNumber;
+            
+            Debug.Log(MaximumTimeOutside);
+            Debug.Log(SocialDistancing);
         }
         
         void OnApplicationQuit()

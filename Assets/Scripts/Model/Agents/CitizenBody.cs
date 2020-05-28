@@ -14,7 +14,7 @@ namespace Model.Agents
 {
     public class CitizenBody : AgentBody
     {
-     
+        //TODO: add death if not seeing people
         #region SerializeField
         [SerializeField] private GameObject agentDetectionPrefab; 
         private GameObject m_agentDetection;
@@ -234,6 +234,7 @@ namespace Model.Agents
             
                 if (closestAgent.CurrentPositionState != PositionState.AtHome)
                 {
+                    //TODO: decrease social stress according to distance
                     m_socialStress -= m_socialStress / 2;
                     if (m_socialStress < 1)
                         m_socialStress = 0;

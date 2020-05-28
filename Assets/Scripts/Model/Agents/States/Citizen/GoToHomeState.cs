@@ -7,6 +7,7 @@ namespace Model.Agents.States.Citizen
         public GoToHomeState(Agents.Citizen citizen) : base(citizen)
         {
             citizen.Body.CurrentPositionState = CitizenBody.PositionState.ReturningHome;
+            m_citizen.ResetAndStopTimer();
         }
 
         public override IState Action()

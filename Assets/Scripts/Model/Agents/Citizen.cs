@@ -18,6 +18,9 @@ namespace Model.Agents
         private Vector3 m_homePosition;
         public Vector3 HomePosition => m_homePosition;
 
+        public float TimeOutside { get; set; }
+        private bool isTimerLaunched = false;
+
         public float PositionCloseThresh { get; } = 1f;
 
         private IState m_currentState;
@@ -37,6 +40,28 @@ namespace Model.Agents
                 m_environment = agentEnvironment;
             
             m_currentState = new Idle(this);
+
+            TimeOutside = 0f;
+        }
+
+        public void StartOrContinueTimer()
+        {
+            if (isTimerLaunched) return;
+            
+            InvokeRepeating(nameof(IncreaseTimer), 0f, 0.5f);
+            isTimerLaunched = true;
+        }
+
+        private void IncreaseTimer()
+        {
+            TimeOutside += 0.5f;
+        }
+
+        public void ResetAndStopTimer()
+        {
+            CancelInvoke();
+            TimeOutside = 0f;
+            isTimerLaunched = false;
         }
 
         private void OnMouseOver()

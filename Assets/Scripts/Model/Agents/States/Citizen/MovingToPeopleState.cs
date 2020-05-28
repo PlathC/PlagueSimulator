@@ -49,6 +49,7 @@ namespace Model.Agents.States.Citizen
         {
             m_citizen.Body.MoveTo(m_bodyToFollow.transform.position);
             m_citizen.Body.CurrentPositionState = CitizenBody.PositionState.IsMoving;
+            m_citizen.StartOrContinueTimer();
         }
         
         public override IState Action()
@@ -63,7 +64,7 @@ namespace Model.Agents.States.Citizen
 
                 if (m_bodyToFollow)
                 {
-                    if(Vector3.Distance(m_bodyToFollow.transform.position, m_citizen.transform.position) < 1f)
+                    if(Vector3.Distance(m_bodyToFollow.transform.position, m_citizen.transform.position) < m_citizen.AssociatedEnvironment.SocialDistancing)
                         return new Idle(m_citizen);
                     
                     FollowCurrentBody();

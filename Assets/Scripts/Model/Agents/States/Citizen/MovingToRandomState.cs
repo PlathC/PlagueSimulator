@@ -10,6 +10,7 @@ namespace Model.Agents.States.Citizen
         public MovingToRandomState(Agents.Citizen citizen) : base(citizen)
         {
             m_citizen.Body.CurrentPositionState = CitizenBody.PositionState.IsMoving;
+            m_citizen.StartOrContinueTimer();
         }
 
         private void ComputeNewDirection()
