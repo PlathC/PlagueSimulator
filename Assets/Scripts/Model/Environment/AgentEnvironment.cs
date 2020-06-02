@@ -79,9 +79,6 @@ namespace Model.Environment
         {
             m_growthRate.Add(m_sickNumber - m_lastSickNumber);
             m_lastSickNumber = m_sickNumber;
-            
-            Debug.Log(MaximumTimeOutside);
-            Debug.Log(SocialDistancing);
         }
         
         void OnApplicationQuit()
@@ -118,7 +115,8 @@ namespace Model.Environment
 
         public bool GetVirusContagiosity(float distance)
         {
-            return Random.Range(0f, 1f) < simulationData.infectivity;
+            Debug.Log("Distance : " + distance + " || " + 1/Math.Exp(distance));
+            return Random.Range(0f, 1f) < 1/Math.Exp(distance);
         }
         
         //https://gist.github.com/tansey/1444070
@@ -135,9 +133,7 @@ namespace Model.Environment
 
         public float GetDiseaseDuration()
         {
-            double number = SampleGaussian(m_systemRandom, simulationData.diseaseDuration, simulationData.diseaseDuration/10f);
-            Debug.Log(number);
-            return (float) number;
+            return (float) SampleGaussian(m_systemRandom, simulationData.diseaseDuration, simulationData.diseaseDuration/10f);;
         }
         
         public bool ImmunedOrDead()
