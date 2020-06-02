@@ -27,11 +27,6 @@ namespace Ui
         private Text infectivityValue;
 
         [SerializeField]
-        private Slider stressLevelSlider;
-        [SerializeField]
-        private Text stressLevelValue;
-        
-        [SerializeField]
         private Slider launchSickNumberSlider;
         [SerializeField]
         private Text launchSickNumberValue;
@@ -66,9 +61,6 @@ namespace Ui
             infectivitySlider.onValueChanged.AddListener(UpdatInfectivityValue);
             UpdatInfectivityValue(infectivitySlider.value);
 
-            stressLevelSlider.onValueChanged.AddListener(UpdateStressLevelValue);
-            UpdateStressLevelValue(stressLevelSlider.value);
-            
             launchSickNumberSlider.onValueChanged.AddListener(UpdateSickNumberValue);
             UpdateSickNumberValue(launchSickNumberSlider.value);
             
@@ -91,12 +83,7 @@ namespace Ui
         {
             infectivityValue.text = value.ToString();
         }
-
-        private void UpdateStressLevelValue(float value)
-        {
-            stressLevelValue.text = value.ToString();
-        }
-
+        
         private void UpdateSickNumberValue(float value)
         {
             launchSickNumberValue.text = value.ToString();

@@ -14,7 +14,6 @@ namespace Model.Agents
 {
     public class CitizenBody : AgentBody
     {
-        //TODO: add cause of death to notification
         #region SerializeField
         [SerializeField] private GameObject agentDetectionPrefab; 
         private GameObject m_agentDetection;
@@ -55,6 +54,13 @@ namespace Model.Agents
             Dead
         }
 
+        public enum CauseOfDeath
+        {
+            Solitude,
+            Disease,
+            None
+        }
+
         public enum PositionState
         {
             IsMoving,
@@ -62,6 +68,8 @@ namespace Model.Agents
             AtHome,
             NotMoving
         }
+
+        private CauseOfDeath m_causeOfDeath = CauseOfDeath.None;
         
         private PositionState m_currentPositionState = PositionState.AtHome;
         public PositionState CurrentPositionState
@@ -104,7 +112,7 @@ namespace Model.Agents
                     goRenderer.material.SetColor(SicknessShader, color);
                 
                 m_environment.NotifyAgentModification(
-                    new StorageData(Time.time, m_currentPositionState, oldSickness, m_currentSickness, transform.position)
+                    new StorageData(Time.time, m_currentPositionState, oldSickness, m_currentSickness, transform.position, m_causeOfDeath)
                     );
                 if(m_currentSickness == SicknessState.Dead)
                     Destroy(gameObject);
@@ -160,12 +168,19 @@ namespace Model.Agents
 
             if (m_currentSickness == SicknessState.Infected && m_environment.GetDiseaseDuration() < (Time.time - m_timeAtInfection))
             {
-                CurrentSickness = m_environment.ImmunedOrDead() ? SicknessState.Immuned : SicknessState.Dead;
+                if (m_environment.ImmunedOrDead())
+                    CurrentSickness = SicknessState.Immuned;
+                else
+                {
+                    m_causeOfDeath = CauseOfDeath.Disease;
+                    CurrentSickness = SicknessState.Dead;
+                }
             }
 
             //It died of solitude
             if (m_socialStress > m_socialStressThresh * 2)
             {
+                m_causeOfDeath = CauseOfDeath.Solitude;
                 CurrentSickness = SicknessState.Dead;
             }
                 

@@ -32,8 +32,7 @@ namespace Ui
             m_simulationData = ScriptableObject.FindObjectOfType<SimulationData>();
             simulationDataText.text += $"{m_simulationData.ToString()} : " +
                                          $"Density {m_simulationData.populationDensity.ToString()} | " +
-                                         $"Infectivity {m_simulationData.infectivity.ToString()} | " +
-                                         $"Stress Level {m_simulationData.stressLevel.ToString()}";
+                                         $"Infectivity {m_simulationData.infectivity.ToString()} ";
 
             m_bastStatText = currentStatText.text;
 

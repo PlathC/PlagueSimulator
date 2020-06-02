@@ -85,7 +85,7 @@ namespace Model.Environment
         {
             Debug.Log("Application ending after " + Time.time + " seconds");
             
-            string csvSick = "Time,PositionState,SickingState,x,y,z\n";
+            string csvSick = "Time,PositionState,SickingState,x,y,z,CauseOfDeath\n";
             csvSick += String.Join("\n", m_save.Select(x => x.ToString()).ToArray());
 
             Debug.Log("Saving data to " + Application.persistentDataPath);
