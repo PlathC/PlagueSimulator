@@ -115,7 +115,6 @@ namespace Model.Environment
 
         public bool GetVirusContagiosity(float distance)
         {
-            Debug.Log("Distance : " + distance + " || " + 1/Math.Exp(distance));
             return Random.Range(0f, 1f) < 1/Math.Exp(distance);
         }
         

@@ -233,15 +233,14 @@ namespace Model.Agents
                         closestAgent = agent;
                 }
             
+                float distance = Vector3.Distance(closestAgent.transform.position, transform.position);
+                
                 if (closestAgent.CurrentPositionState != PositionState.AtHome)
                 {
-                    //TODO: decrease social stress according to distance
-                    m_socialStress -= m_socialStress / 2;
+                    m_socialStress -= m_socialStress * 1f/(float)Math.Exp(distance);
                     if (m_socialStress < 1)
                         m_socialStress = 0;
                 }
-                
-                float distance = Vector3.Distance(closestAgent.transform.position, transform.position);
                 
                 if (CurrentSickness != SicknessState.Healthy) return;
             
