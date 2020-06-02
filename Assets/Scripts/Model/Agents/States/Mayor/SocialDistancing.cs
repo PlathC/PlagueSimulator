@@ -15,7 +15,7 @@ namespace Model.Agents.States.Mayor
             if(m_growthRate > 0)
                 m_mayor.IncreaseSocialDistancing(.05f);
             else
-                m_mayor.IncreaseSocialDistancing(-.05f);
+                m_mayor.IncreaseSocialDistancing(-0.05f);
             
             return new Idle(m_environment, m_mayor);
         }

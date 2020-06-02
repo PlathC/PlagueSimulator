@@ -14,7 +14,7 @@ namespace Model.Agents
 {
     public class CitizenBody : AgentBody
     {
-        //TODO: add death if not seeing people
+        //TODO: add cause of death to notification
         #region SerializeField
         [SerializeField] private GameObject agentDetectionPrefab; 
         private GameObject m_agentDetection;
@@ -164,6 +164,13 @@ namespace Model.Agents
             {
                 CurrentSickness = m_environment.ImmunedOrDead() ? SicknessState.Immuned : SicknessState.Dead;
             }
+
+            //It died of solitude
+            if (m_socialStress > m_socialStressThresh * 2)
+            {
+                CurrentSickness = SicknessState.Dead;
+            }
+                
         }
         
         public void MoveTo(Vector3 position)

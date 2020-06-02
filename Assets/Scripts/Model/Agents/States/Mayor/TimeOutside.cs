@@ -15,7 +15,7 @@ namespace Model.Agents.States.Mayor
             if(m_growthRate > 0)
                 m_mayor.DecreaseTimeOutside(.05f);
             else
-                m_mayor.DecreaseTimeOutside(-.05f);
+                m_mayor.DecreaseTimeOutside(-0.05f);
             return new Idle(m_environment, m_mayor);
         }
     }
