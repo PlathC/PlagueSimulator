@@ -11,8 +11,7 @@
         {
             var needToSeePeople = m_citizen.Body.SocialStress > m_citizen.Body.SocialThresh;
             var needToGoOutside =  m_citizen.Body.OutStress > m_citizen.Body.OutStressThresh;
-
-            //TODO: Merge condition with the last one
+            
             if(m_citizen.TimeOutside > m_citizen.AssociatedEnvironment.MaximumTimeOutside)
                 return new GoToHomeState(m_citizen);
             if(needToSeePeople)

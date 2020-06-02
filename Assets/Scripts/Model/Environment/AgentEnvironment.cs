@@ -14,6 +14,8 @@ namespace Model.Environment
 {
     public class AgentEnvironment : MonoBehaviour
     {
+        private System.Random m_systemRandom = new System.Random();
+        
         private readonly List<CitizenBody> m_citizenList = new List<CitizenBody>();
         
         private int m_sickNumber = 0;
@@ -30,7 +32,13 @@ namespace Model.Environment
 
         public int LastGrowthRate => m_growthRate.Last();
 
-        public float MaximumTimeOutside { get; set; } = 30f;
+        private float m_maximumTimeOutside = 30f;
+
+        public float MaximumTimeOutside
+        {
+            get => m_maximumTimeOutside; 
+            set => m_maximumTimeOutside = value > 30f ? 30f : m_maximumTimeOutside;
+        }
         private float m_socialDistancing = 1f;
         public float SocialDistancing
         {
@@ -94,22 +102,42 @@ namespace Model.Environment
         public void NotifyAgentModification(StorageData old)
         {
             m_save.Add(old);
+            
             if (old.sicknessState == CitizenBody.SicknessState.Infected)
                 m_sickNumber++;
             else if (old.sicknessState == CitizenBody.SicknessState.Immuned)
                 m_immunedNb++;
             else if (old.sicknessState == CitizenBody.SicknessState.Dead)
                 m_deadNb++;
+            
+            if (old.oldSicknessState == CitizenBody.SicknessState.Infected)
+                m_sickNumber--;
+            else if (old.oldSicknessState == CitizenBody.SicknessState.Immuned)
+                m_immunedNb--;
         }
 
         public bool GetVirusContagiosity(float distance)
         {
             return Random.Range(0f, 1f) < simulationData.infectivity;
         }
+        
+        //https://gist.github.com/tansey/1444070
+        private static double SampleGaussian(System.Random random, double mean, double stddev)
+        {
+            // The method requires sampling from a uniform random of (0,1]
+            // but Random.NextDouble() returns a sample of [0,1).
+            double x1 = 1 - random.NextDouble();
+            double x2 = 1 - random.NextDouble();
+
+            double y1 = Math.Sqrt(-2.0 * Math.Log(x1)) * Math.Cos(2.0 * Math.PI * x2);
+            return y1 * stddev + mean;
+        }
 
         public float GetDiseaseDuration()
         {
-            return simulationData.diseaseDuration;
+            double number = SampleGaussian(m_systemRandom, simulationData.diseaseDuration, simulationData.diseaseDuration/10f);
+            Debug.Log(number);
+            return (float) number;
         }
         
         public bool ImmunedOrDead()

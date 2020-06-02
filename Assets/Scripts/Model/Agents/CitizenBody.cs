@@ -77,6 +77,7 @@ namespace Model.Agents
             get => m_currentSickness;
             set
             {
+                SicknessState oldSickness = m_currentSickness;
                 m_currentSickness = value;
 
                 Color color;
@@ -103,7 +104,7 @@ namespace Model.Agents
                     goRenderer.material.SetColor(SicknessShader, color);
                 
                 m_environment.NotifyAgentModification(
-                    new StorageData(Time.time, m_currentPositionState, m_currentSickness, transform.position)
+                    new StorageData(Time.time, m_currentPositionState, oldSickness, m_currentSickness, transform.position)
                     );
                 if(m_currentSickness == SicknessState.Dead)
                     Destroy(gameObject);
@@ -113,7 +114,6 @@ namespace Model.Agents
         
         private AgentEnvironment m_environment;
         private static readonly int SicknessShader = Shader.PropertyToID("_Color");
-        private NavMeshAgent m_navmesh;
         private float m_speed;
         private List<CitizenBody> m_closestAgentsForSickness = new List<CitizenBody>();
 
@@ -140,8 +140,6 @@ namespace Model.Agents
             m_detection = m_agentDetection.GetComponent<AgentDetection>();
 
             Instantiate(agentProximityPrefab, transform);
-
-            m_navmesh = GetComponent<NavMeshAgent>();
 
             m_speed = Random.Range(.8f, 2f);
         }
@@ -175,10 +173,6 @@ namespace Model.Agents
         
         public void MoveTo(Vector3 position)
         {
-            // TODO: More complex movements such as velocity based  
-            if (!m_navmesh)
-                return;
-            //m_navmesh.destination = position;
             transform.position = Vector3.MoveTowards(transform.position, position, 0.05f*m_speed);
         }
 

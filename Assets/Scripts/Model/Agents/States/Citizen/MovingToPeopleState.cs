@@ -14,8 +14,6 @@ namespace Model.Agents.States.Citizen
 
         private void FindNewAgentToFollow()
         {
-            //TODO return always null sometimes and create an infinite loop MovingToPeople -> MovingToRandom -> Idle -> MovingToPeople
-            
             var closestAgents = m_citizen.Body.GetClosestAgents();
             if (closestAgents != null && closestAgents.Any())
             {
