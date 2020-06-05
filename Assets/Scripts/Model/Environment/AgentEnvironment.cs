@@ -84,12 +84,17 @@ namespace Model.Environment
         void OnApplicationQuit()
         {
             Debug.Log("Application ending after " + Time.time + " seconds");
+            string folder = "./SimulationExport";
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
             
             string csvSick = "Time,PositionState,SickingState,x,y,z,CauseOfDeath\n";
             csvSick += String.Join("\n", m_save.Select(x => x.ToString()).ToArray());
 
-            Debug.Log("Saving data to " + Application.persistentDataPath);
-            string destination = Application.persistentDataPath + "/data.csv";
+            Debug.Log("Saving data to " + folder);
+            string destination = folder + "/data.csv";
             var file = File.Create(destination);
             var sw = new StreamWriter(file);
             sw.Write(csvSick);
