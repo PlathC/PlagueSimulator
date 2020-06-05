@@ -44,6 +44,7 @@ Here are the meanings of the inputs:
 - __Launch immuned number__: Percentage of immuned citizen at launch time.
 - __Disease Duration__: Disease duration in second.
 - __Death statistics__: Death probability when being sick.
+- __Disease Transmission Distance__: Transmission distance of the disease in meters.
 
 ### Simulation
 

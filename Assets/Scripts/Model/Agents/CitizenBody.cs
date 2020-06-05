@@ -160,7 +160,6 @@ namespace Model.Agents
         {
             if (m_agentProximity.TryGetComponent<BoxCollider>(out var boxCollider))
             {
-                Debug.Log(m_sizeProximityCollider);
                 boxCollider.size = m_sizeProximityCollider;
             }
         }
