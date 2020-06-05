@@ -58,10 +58,28 @@ Some inputs allow the user to move the camera :
 - __F__: Move Right
 - __Space__: Move Forward
 - __Left Ctrl__: Move backward
+- __Escape__: Quit application
+
+Citizens can changed color when their state change:
+
+- __Green__: Healthy citizen
+- __Blue__: Immuned citizen
+- __Red__: Sick citizen
+
+Citizen disappear when they die.
 
 ### Output CSV
 
+Once the application exit, a CSV file is provided in the `SimulationExport` folder. This file contains
+the following simulation information :
 
+- __Time__: Timestamp of the new information
+- __PositionState__: Current position state of the citizen when the new information happened
+- __SickingState__: Current sicking state of the citizen when the new information
+- __x__: X position of the citizen
+- __y__: Y position of the citizen
+- __z__: Z position of the citizen
+- __CauseOfDeath__: Cause of the death if the new information is a death of a citizen.
 
 ## Installation and release
 
