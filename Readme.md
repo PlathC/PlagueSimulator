@@ -15,6 +15,18 @@ a defined population using Multi Agent system in Unity.
 
 ## Story
 
+The simulation take place in a fictive city where a disease is spreading. 
+
+Citizens are getting sick by getting close to another agent that is contagious.
+
+Some rules lead the simulation :
+
+- Citizens want to get outside or want to see people, if they can't their 
+stress rise until they die if they can't satisfy their needs before the maximum
+time.
+- Citizens follow rules that are set by the Mayor agent that can influence
+the ability of citizens to get outside or getting close of others.
+
 ## User interface and controls
 
 ### Setup scene
