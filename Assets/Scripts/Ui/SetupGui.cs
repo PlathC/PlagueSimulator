@@ -51,15 +51,14 @@ namespace Ui
         private AsyncOperation m_openSimulationScene;
         private SimulationData simulationData;
 
-        // Use this for initialization
         private void Start()
         {
             launchSimulationScene.onClick.AddListener(LoadButton);
             populationDensitySlider.onValueChanged.AddListener(UpdatePopulationDensityValue);
             UpdatePopulationDensityValue(populationDensitySlider.value);
 
-            infectivitySlider.onValueChanged.AddListener(UpdatInfectivityValue);
-            UpdatInfectivityValue(infectivitySlider.value);
+            infectivitySlider.onValueChanged.AddListener(UpdateInfectivityValue);
+            UpdateInfectivityValue(infectivitySlider.value);
 
             launchSickNumberSlider.onValueChanged.AddListener(UpdateSickNumberValue);
             UpdateSickNumberValue(launchSickNumberSlider.value);
@@ -79,7 +78,7 @@ namespace Ui
             populationDensityValue.text = value.ToString();
         }
 
-        private void UpdatInfectivityValue(float value)
+        private void UpdateInfectivityValue(float value)
         {
             infectivityValue.text = value.ToString();
         }
