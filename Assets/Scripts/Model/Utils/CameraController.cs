@@ -15,6 +15,11 @@ namespace Model.Utils
 
         public void Update()
         {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+
             Vector3 pVelocity = new Vector3();
             if (Input.GetKey (KeyCode.Space))
             {
