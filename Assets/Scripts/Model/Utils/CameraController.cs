@@ -15,38 +15,38 @@ namespace Model.Utils
 
         public void Update()
         {
-            Vector3 p_Velocity = new Vector3();
+            Vector3 pVelocity = new Vector3();
             if (Input.GetKey (KeyCode.Space))
             {
-                p_Velocity += new Vector3(0, 0 , 1);
+                pVelocity += new Vector3(0, 0 , 1);
             }
             
             if (Input.GetKey (KeyCode.LeftControl))
             {
-                p_Velocity += new Vector3(0, 0, -1);
+                pVelocity += new Vector3(0, 0, -1);
             }
             
             if (Input.GetKey (KeyCode.Z))
             {
-                p_Velocity += new Vector3(0, 1, 0);
+                pVelocity += new Vector3(0, 1, 0);
             }
             
             if (Input.GetKey (KeyCode.S))
             {
-                p_Velocity += new Vector3(0, -1, 0);
+                pVelocity += new Vector3(0, -1, 0);
             }
             
             if (Input.GetKey (KeyCode.Q))
             {
-                p_Velocity += new Vector3(-1, 0, 0);
+                pVelocity += new Vector3(-1, 0, 0);
             }
             
             if (Input.GetKey (KeyCode.D))
             {
-                p_Velocity += new Vector3(1, 0, 0);
+                pVelocity += new Vector3(1, 0, 0);
             }
 
-            m_camera.transform.Translate(p_Velocity);
+            m_camera.transform.Translate(pVelocity);
         }
     }
 }
