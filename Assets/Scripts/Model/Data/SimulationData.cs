@@ -11,5 +11,6 @@ namespace Model.Data
         public float launchImmunedNumber = 0f;
         public uint diseaseDuration = 100;
         public float deathStatistic = 0.5f;
+        public float diseaseTransmissionDistance = 2;
     }
 }

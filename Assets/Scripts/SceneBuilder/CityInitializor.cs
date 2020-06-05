@@ -62,6 +62,11 @@ namespace SceneBuilder
                     position,
                     Quaternion.identity);
                 citizen.transform.parent = map.transform;
+                if (citizen.TryGetComponent<CitizenBody>(out var citizenBody))
+                {
+                    citizenBody.InitProximityColliderSize(new Vector3(m_simulationData.diseaseTransmissionDistance, 1, m_simulationData.diseaseTransmissionDistance));
+                }
+                    
             }
 
             m_environment.UpdateAgentList();

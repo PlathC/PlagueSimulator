@@ -20,6 +20,9 @@ namespace Model.Agents
         private AgentDetection m_detection;
 
         [SerializeField] private GameObject agentProximityPrefab;
+        private GameObject m_agentProximity;
+        private Vector3 m_sizeProximityCollider = new Vector3(2,1,2);
+        
 
         [SerializeField]
         private float speed = 5f;
@@ -147,9 +150,24 @@ namespace Model.Agents
             m_agentDetection = Instantiate(agentDetectionPrefab, transform);
             m_detection = m_agentDetection.GetComponent<AgentDetection>();
 
-            Instantiate(agentProximityPrefab, transform);
+            m_agentProximity = Instantiate(agentProximityPrefab, transform);
+            SetProximityColliderSize();
 
             m_speed = Random.Range(.8f, 2f);
+        }
+
+        private void SetProximityColliderSize()
+        {
+            if (m_agentProximity.TryGetComponent<BoxCollider>(out var boxCollider))
+            {
+                Debug.Log(m_sizeProximityCollider);
+                boxCollider.size = m_sizeProximityCollider;
+            }
+        }
+
+        public void InitProximityColliderSize(Vector3 newSize)
+        {
+            m_sizeProximityCollider = newSize;
         }
 
         private void Update()

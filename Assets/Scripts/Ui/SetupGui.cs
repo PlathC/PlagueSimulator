@@ -51,6 +51,11 @@ namespace Ui
         private Slider deathStatisticSlider;
         [SerializeField]
         private Text deathStatisticValue;
+        
+        [SerializeField]
+        private Slider transmissionDistanceSlider;
+        [SerializeField]
+        private Text transmissionDistanceValue;
 
         #endregion // UiObjects
         
@@ -81,6 +86,9 @@ namespace Ui
             
             deathStatisticSlider.onValueChanged.AddListener(UpdateDeathStatisticValue);
             UpdateDeathStatisticValue(deathStatisticSlider.value);
+            
+            transmissionDistanceSlider.onValueChanged.AddListener(UpdateTransmissionDistanceValue);
+            UpdateTransmissionDistanceValue(transmissionDistanceSlider.value);
         }
 
         private void UpdatePopulationDensityValue(float value)
@@ -113,6 +121,11 @@ namespace Ui
             deathStatisticValue.text = value.ToString();
         }
 
+        private void UpdateTransmissionDistanceValue(float value)
+        {
+            transmissionDistanceValue.text = value.ToString();
+        }
+
         private void LaunchFirstScenario()
         {
             populationDensitySlider.value = 1000;
@@ -121,6 +134,7 @@ namespace Ui
             launchImmunedNumberSlider.value = 0.5f;
             diseaseDurationSlider.value = 100;
             deathStatisticSlider.value = 0.1f;
+            transmissionDistanceSlider.value = 2f;
             
             StartCoroutine(LoadScene());
         }
@@ -133,6 +147,7 @@ namespace Ui
             launchImmunedNumberSlider.value = 0;
             diseaseDurationSlider.value = 20;
             deathStatisticSlider.value = 0.6f;
+            transmissionDistanceSlider.value = 10f;
             
             StartCoroutine(LoadScene());
         }
@@ -145,6 +160,7 @@ namespace Ui
             launchImmunedNumberSlider.value = 0;
             diseaseDurationSlider.value = 60;
             deathStatisticSlider.value = 0.4f;
+            transmissionDistanceSlider.value = 3f;
             
             StartCoroutine(LoadScene());
         }
@@ -163,6 +179,7 @@ namespace Ui
             simulationData.launchImmunedNumber = launchImmunedNumberSlider.value;
             simulationData.diseaseDuration = (uint) diseaseDurationSlider.value;
             simulationData.deathStatistic = deathStatisticSlider.value;
+            simulationData.diseaseTransmissionDistance = transmissionDistanceSlider.value;
 
             yield return null;
 

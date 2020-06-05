@@ -64,17 +64,6 @@ namespace Model.Agents
             isTimerLaunched = false;
         }
 
-        private void OnMouseOver()
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                string msg = GetUniqueIdentifier.ToString().Substring(0, 5) + " : " + m_currentState.GetType().FullName;
-                msg += "\nOut : " + m_citizenBody.OutStress;
-                msg += " || Social : " + m_citizenBody.SocialStress;
-                Debug.Log(msg);
-            }
-        }
-        
         void Update()
         {
             m_currentState = m_currentState.Action();
