@@ -15,6 +15,12 @@ namespace Ui
         private string simulationSceneName;
         [SerializeField]
         private Button launchSimulationScene;
+        [SerializeField] 
+        private Button launchFirstScenario;
+        [SerializeField] 
+        private Button launchSecondScenario;
+        [SerializeField] 
+        private Button launchThirdScenario;
 
         [SerializeField]
         private Slider populationDensitySlider;
@@ -55,6 +61,10 @@ namespace Ui
         private void Start()
         {
             launchSimulationScene.onClick.AddListener(LoadButton);
+            launchFirstScenario.onClick.AddListener(LaunchFirstScenario);
+            launchSecondScenario.onClick.AddListener(LaunchSecondScenario);
+            launchThirdScenario.onClick.AddListener(LaunchThirdScenario);
+            
             populationDensitySlider.onValueChanged.AddListener(UpdatePopulationDensityValue);
             UpdatePopulationDensityValue(populationDensitySlider.value);
 
@@ -102,6 +112,42 @@ namespace Ui
         private void UpdateDeathStatisticValue(float value)
         {
             deathStatisticValue.text = value.ToString();
+        }
+
+        private void LaunchFirstScenario()
+        {
+            populationDensitySlider.value = 1000;
+            infectivitySlider.value = 0.5f;
+            launchSickNumberSlider.value = 0.1f;
+            launchImmunedNumberSlider.value = 0.5f;
+            diseaseDurationSlider.value = 100;
+            deathStatisticSlider.value = 0.1f;
+            
+            StartCoroutine(LoadScene());
+        }
+        
+        private void LaunchSecondScenario()
+        {
+            populationDensitySlider.value = 1000;
+            infectivitySlider.value = 1f;
+            launchSickNumberSlider.value = 0.15f;
+            launchImmunedNumberSlider.value = 0;
+            diseaseDurationSlider.value = 20;
+            deathStatisticSlider.value = 0.6f;
+            
+            StartCoroutine(LoadScene());
+        }
+        
+        private void LaunchThirdScenario()
+        {
+            populationDensitySlider.value = 2000;
+            infectivitySlider.value = 0.2f;
+            launchSickNumberSlider.value = 0.1f;
+            launchImmunedNumberSlider.value = 0;
+            diseaseDurationSlider.value = 60;
+            deathStatisticSlider.value = 0.4f;
+            
+            StartCoroutine(LoadScene());
         }
 
         private void LoadButton()

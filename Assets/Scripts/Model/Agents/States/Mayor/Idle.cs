@@ -16,7 +16,6 @@ namespace Model.Agents.States.Mayor
                     return new TimeOutside(m_environment, m_mayor, m_environment.LastGrowthRate);
 
             return new SocialDistancing(m_environment, m_mayor, m_environment.LastGrowthRate);
-            
         }
     }
 }
