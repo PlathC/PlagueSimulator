@@ -58,6 +58,16 @@ Some inputs allow the user to move the camera :
 - __Space__: Move Forward
 - __Left Ctrl__: Move backward
 
+### Output CSV
+
+
+
+## Installation and release
+
+This project has been tested with Unity 2019.3.11f1
+
+A release can be found on the Github project "Release" field.
+
 ## Based on
 
 [Gaussian function](https://gist.github.com/tansey/1444070) 
