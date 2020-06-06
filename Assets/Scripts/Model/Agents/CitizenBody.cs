@@ -183,9 +183,9 @@ namespace Model.Agents
             
             m_socialStress += m_socialGrowthRate;
 
-            if (m_currentSickness == SicknessState.Infected && m_environment.GetDiseaseDuration() < (Time.time - m_timeAtInfection))
+            if (m_currentSickness == SicknessState.Infected && m_environment.Virus.GetDiseaseDuration() < (Time.time - m_timeAtInfection))
             {
-                if (m_environment.ImmunedOrDead())
+                if (m_environment.Virus.ImmunedOrDead())
                     CurrentSickness = SicknessState.Immuned;
                 else
                 {
@@ -279,7 +279,7 @@ namespace Model.Agents
                 if (closestAgent.CurrentPositionState != PositionState.AtHome &&
                     closestAgent.m_currentSickness == SicknessState.Infected)// && distance)
                 {
-                    if (m_environment.GetVirusContagiosity(distance))
+                    if (m_environment.Virus.GetVirusContagiosity(distance))
                     {
                         CurrentSickness = SicknessState.Infected;
                     }

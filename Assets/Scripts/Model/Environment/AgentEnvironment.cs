@@ -14,10 +14,12 @@ namespace Model.Environment
 {
     public class AgentEnvironment : MonoBehaviour
     {
-        private System.Random m_systemRandom = new System.Random();
         
         private readonly List<CitizenBody> m_citizenList = new List<CitizenBody>();
-        
+
+        private Virus m_virus = null;
+        public Virus Virus { get { return m_virus; } }
+
         private int m_sickNumber = 0;
         public int SickNumber => m_sickNumber;
 
@@ -39,6 +41,7 @@ namespace Model.Environment
             get => m_maximumTimeOutside; 
             set => m_maximumTimeOutside = value > 30f ? 30f : m_maximumTimeOutside;
         }
+
         private float m_socialDistancing = 1f;
         public float SocialDistancing
         {
@@ -72,6 +75,9 @@ namespace Model.Environment
         void Start()
         {
             simulationData = ScriptableObject.FindObjectOfType<SimulationData>();
+
+            m_virus = new Virus(simulationData.diseaseDuration, simulationData.deathStatistic);
+
             InvokeRepeating(nameof(UpdateGrowthRate), 2f, 2f);
         }
 
@@ -83,7 +89,6 @@ namespace Model.Environment
         
         void OnApplicationQuit()
         {
-            Debug.Log("Application ending after " + Time.time + " seconds");
             string folder = "./SimulationExport";
             if (!Directory.Exists(folder))
             {
@@ -93,7 +98,6 @@ namespace Model.Environment
             string csvSick = "Time,PositionState,SickingState,x,y,z,CauseOfDeath\n";
             csvSick += String.Join("\n", m_save.Select(x => x.ToString()).ToArray());
 
-            Debug.Log("Saving data to " + folder);
             string destination = folder + "/data.csv";
             var file = File.Create(destination);
             var sw = new StreamWriter(file);
@@ -117,34 +121,7 @@ namespace Model.Environment
             else if (old.oldSicknessState == CitizenBody.SicknessState.Immuned)
                 m_immunedNb--;
         }
-
-        public bool GetVirusContagiosity(float distance)
-        {
-            return Random.Range(0f, 1f) < 1/Math.Exp(distance);
-        }
-        
-        //https://gist.github.com/tansey/1444070
-        private static double SampleGaussian(System.Random random, double mean, double stddev)
-        {
-            // The method requires sampling from a uniform random of (0,1]
-            // but Random.NextDouble() returns a sample of [0,1).
-            double x1 = 1 - random.NextDouble();
-            double x2 = 1 - random.NextDouble();
-
-            double y1 = Math.Sqrt(-2.0 * Math.Log(x1)) * Math.Cos(2.0 * Math.PI * x2);
-            return y1 * stddev + mean;
-        }
-
-        public float GetDiseaseDuration()
-        {
-            return (float) SampleGaussian(m_systemRandom, simulationData.diseaseDuration, simulationData.diseaseDuration/10f);;
-        }
-        
-        public bool ImmunedOrDead()
-        {
-            return Random.Range(0f, 1f) > simulationData.deathStatistic;
-        }
-        
+              
         public void UpdateAgentList()
         {
             m_citizenList.Clear();
