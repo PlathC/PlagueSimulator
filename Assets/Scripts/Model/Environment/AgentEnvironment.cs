@@ -39,14 +39,21 @@ namespace Model.Environment
         public float MaximumTimeOutside
         {
             get => m_maximumTimeOutside; 
-            set => m_maximumTimeOutside = value > 30f ? 30f : m_maximumTimeOutside;
+            set {
+                Debug.Log(value);
+
+                m_maximumTimeOutside = value > 30f ? 30f : m_maximumTimeOutside;
+            }
         }
 
         private float m_socialDistancing = 1f;
         public float SocialDistancing
         {
             get => m_socialDistancing;
-            set => m_socialDistancing = value < 1f ? 1f : m_socialDistancing;
+            set {
+                Debug.Log(value);
+                m_socialDistancing = value < 1f ? 1f : m_socialDistancing;
+            }
         }
 
         public List<CitizenBody> CitizenList => m_citizenList;

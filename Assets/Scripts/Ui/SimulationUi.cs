@@ -10,11 +10,15 @@ namespace Ui
     {
         [SerializeField]
         private Text simulationDataText;
-        
-        [SerializeField]
-        private Text currentStatText;
 
-        private string m_bastStatText;
+        [SerializeField]
+        private Text currentCitizensStatText;
+
+        [SerializeField]
+        private Text currentMayorStatText;
+
+        private string m_bastCitizensStatText;
+        private string m_bastMayorStatText;
         private SimulationData m_simulationData;
 
         private AgentEnvironment m_environment;
@@ -31,19 +35,23 @@ namespace Ui
 
             m_simulationData = ScriptableObject.FindObjectOfType<SimulationData>();
             simulationDataText.text += $"{m_simulationData.ToString()} : " +
-                                         $"Density {m_simulationData.populationDensity.ToString()} | " +
-                                         $"Infectivity {m_simulationData.infectivity.ToString()} ";
+                                       $"Density {m_simulationData.populationDensity.ToString()} | " +
+                                       $"Infectivity {m_simulationData.infectivity.ToString()} ";
 
-            m_bastStatText = currentStatText.text;
+            m_bastCitizensStatText = currentCitizensStatText.text;
+            m_bastMayorStatText = currentMayorStatText.text;
 
         }
 
         void Update()
         {
-            currentStatText.text = $"{m_bastStatText} : " +
-                                    $"Infected nb {m_environment.SickNumber.ToString()} | " + 
-                                    $"Immuned nb {m_environment.ImmunedNumber.ToString()} | " + 
-                                    $"Dead nb {m_environment.DeadNumber.ToString()} | ";
+            currentCitizensStatText.text = $"{m_bastCitizensStatText} : " +
+                                           $"Infected nb {m_environment.SickNumber.ToString()} | " + 
+                                           $"Immuned nb {m_environment.ImmunedNumber.ToString()} | " + 
+                                           $"Dead nb {m_environment.DeadNumber.ToString()} | ";
+            currentMayorStatText.text = $"{m_bastMayorStatText}" +
+                                        $"Maximum Time outside: {m_environment.MaximumTimeOutside.ToString()} | " +
+                                        $"Social distancing rate: {m_environment.SocialDistancing.ToString()}";
         }
     }
 }

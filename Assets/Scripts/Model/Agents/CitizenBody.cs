@@ -183,7 +183,8 @@ namespace Model.Agents
             
             m_socialStress += m_socialGrowthRate;
 
-            if (m_currentSickness == SicknessState.Infected && m_environment.Virus.GetDiseaseDuration() < (Time.time - m_timeAtInfection))
+            if (m_currentSickness == SicknessState.Infected 
+                && m_environment.Virus.GetDiseaseDuration() < (Time.time - m_timeAtInfection))
             {
                 if (m_environment.Virus.ImmunedOrDead())
                     CurrentSickness = SicknessState.Immuned;
