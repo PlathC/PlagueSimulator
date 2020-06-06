@@ -51,7 +51,7 @@ namespace SceneBuilder
             for (uint i = 0; i < m_simulationData.populationDensity; i++)
             {
                 var position = new Vector3(mapPosition.x + Random.Range(-(float)width / 2, (float)width / 2),
-                    mapPosition.y + 0,
+                    mapPosition.y,
                     mapPosition.z + Random.Range(-(float)height / 2, (float)height / 2));
                 var house = Instantiate(housePrefab,
                     position, 
@@ -59,12 +59,17 @@ namespace SceneBuilder
                 house.transform.parent = map.transform;
 
                 var citizen = Instantiate(citizenPrefab,
-                    position,
+                    new Vector3(position.x,
+                                position.y + 0.5f,
+                                position.z),
                     Quaternion.identity);
                 citizen.transform.parent = map.transform;
                 if (citizen.TryGetComponent<CitizenBody>(out var citizenBody))
                 {
-                    citizenBody.InitProximityColliderSize(new Vector3(m_simulationData.diseaseTransmissionDistance, 1, m_simulationData.diseaseTransmissionDistance));
+                    citizenBody.InitProximityColliderSize(new Vector3(
+                        m_simulationData.diseaseTransmissionDistance, 
+                        1, 
+                        m_simulationData.diseaseTransmissionDistance));
                 }
                     
             }
@@ -72,7 +77,6 @@ namespace SceneBuilder
             m_environment.UpdateAgentList();
 
             var mayor = Instantiate(mayorPrefab);
-            mayor.GetComponent<Mayor>().SetEnvironment(m_environment);
         }
     }
 }
