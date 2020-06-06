@@ -12,9 +12,6 @@ namespace Model.Agents
         private CitizenBody m_citizenBody;
         public CitizenBody Body => m_citizenBody;
         
-        private AgentEnvironment m_environment;
-        public AgentEnvironment AssociatedEnvironment => m_environment;
-        
         private Vector3 m_homePosition;
         public Vector3 HomePosition => m_homePosition;
 
@@ -23,7 +20,6 @@ namespace Model.Agents
 
         public float PositionCloseThresh { get; } = 1f;
 
-        private IState m_currentState;
 
         protected override void Start()
         {
@@ -31,13 +27,6 @@ namespace Model.Agents
             
             m_homePosition = gameObject.transform.position;
             m_citizenBody = gameObject.GetComponent<CitizenBody>();
-                
-            var env = GameObject.FindGameObjectWithTag("AgentEnvironment");
-            if (!env) return;
-                
-            var agentEnvironment = env.GetComponent<AgentEnvironment>();
-            if (agentEnvironment)
-                m_environment = agentEnvironment;
             
             m_currentState = new Idle(this);
 

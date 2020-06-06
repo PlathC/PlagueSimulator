@@ -9,13 +9,10 @@ namespace Model.Agents
 {
     public class Mayor : Agent
     {
-        private AgentEnvironment m_environment = null;
-
-        private IState m_currentState = null;
-        
-        public void SetEnvironment(AgentEnvironment environment)
+        protected override void Start()
         {
-            m_environment = environment;
+            base.Start();
+
             m_currentState = new Idle(m_environment, this);
         }
 
