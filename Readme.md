@@ -46,6 +46,12 @@ Here are the meanings of the inputs:
 - __Death statistics__: Death probability when being sick.
 - __Disease Transmission Distance__: Transmission distance of the disease in meters.
 
+Some scenarios are preset to provide some interesting simulation cases :
+
+- __Majority of the population vaccinated__:
+- __Disease really infective and quick__:
+- __Dense population with low infectivity__:
+
 ### Simulation
 
 ![Setup Ui](readmefiles/SimulationScene.png)
