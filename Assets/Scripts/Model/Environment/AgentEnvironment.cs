@@ -40,8 +40,6 @@ namespace Model.Environment
         {
             get => m_maximumTimeOutside; 
             set {
-                Debug.Log(value);
-
                 m_maximumTimeOutside = value > 30f ? 30f : m_maximumTimeOutside;
             }
         }
@@ -51,7 +49,6 @@ namespace Model.Environment
         {
             get => m_socialDistancing;
             set {
-                Debug.Log(value);
                 m_socialDistancing = value < 1f ? 1f : m_socialDistancing;
             }
         }
