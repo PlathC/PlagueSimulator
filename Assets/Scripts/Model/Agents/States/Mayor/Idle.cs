@@ -11,7 +11,6 @@ namespace Model.Agents.States.Mayor
         
         public override IState Action()
         {
-            //TODO: include death number
             if (Random.Range(0, 10) > 5)
                     return new TimeOutside(m_environment, m_mayor, m_environment.LastGrowthRate);
 

@@ -40,7 +40,7 @@ namespace Model.Environment
         {
             get => m_maximumTimeOutside; 
             set {
-                m_maximumTimeOutside = value > 30f ? 30f : m_maximumTimeOutside;
+                m_maximumTimeOutside = value > 30f ? 30f : value;
             }
         }
 
@@ -49,7 +49,7 @@ namespace Model.Environment
         {
             get => m_socialDistancing;
             set {
-                m_socialDistancing = value < 1f ? 1f : m_socialDistancing;
+                m_socialDistancing = value < 1f ? 1f : value;
             }
         }
 
