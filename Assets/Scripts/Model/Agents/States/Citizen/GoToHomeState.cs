@@ -12,7 +12,7 @@ namespace Model.Agents.States.Citizen
 
         public override IState Action()
         {
-            if (Vector3.Distance(m_citizen.HomePosition, m_citizen.transform.position) <= 1f)
+            if (Vector3.Distance(m_citizen.HomePosition, m_citizen.transform.position) <= .2f)
             {
                 m_citizen.Body.CurrentPositionState = CitizenBody.PositionState.AtHome;
                 return new Idle(m_citizen);
