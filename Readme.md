@@ -86,6 +86,9 @@ the following simulation information :
 - __y__: Y position of the citizen
 - __z__: Z position of the citizen
 - __CauseOfDeath__: Cause of the death if the new information is a death of a citizen.
+- __sickNumber__ : Sick number at the event time
+- __immunedNb__ : Immuned number at the event time
+- __deadNb__ : Dead number at the event time
 
 ## Installation and release
 

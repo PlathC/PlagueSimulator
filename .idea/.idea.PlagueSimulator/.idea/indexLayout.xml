@@ -20,7 +20,6 @@
       <Path>ExcelExample</Path>
       <Path>Library</Path>
       <Path>Logs</Path>
-      <Path>Temp</Path>
       <Path>obj</Path>
       <Path>readmefiles</Path>
     </explicitExcludes>

@@ -99,7 +99,7 @@ namespace Model.Environment
                 Directory.CreateDirectory(folder);
             }
             
-            string csvSick = "Time,PositionState,SickingState,x,y,z,CauseOfDeath\n";
+            string csvSick = "Time,PositionState,SickingState,x,y,z,CauseOfDeath,sickNumber,immunedNb,deadNb\n";
             csvSick += String.Join("\n", m_save.Select(x => x.ToString()).ToArray());
 
             string destination = folder + "/data.csv";
@@ -111,8 +111,6 @@ namespace Model.Environment
 
         public void NotifyAgentModification(StorageData old)
         {
-            m_save.Add(old);
-            
             if (old.sicknessState == CitizenBody.SicknessState.Infected)
                 m_sickNumber++;
             else if (old.sicknessState == CitizenBody.SicknessState.Immuned)
@@ -124,6 +122,11 @@ namespace Model.Environment
                 m_sickNumber--;
             else if (old.oldSicknessState == CitizenBody.SicknessState.Immuned)
                 m_immunedNb--;
+
+            old.sickNumber = m_sickNumber;
+            old.immunedNb = m_immunedNb;
+            old.deadNb = m_deadNb;
+            m_save.Add(old);
         }
               
         public void UpdateAgentList()
