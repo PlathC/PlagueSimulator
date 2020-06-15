@@ -48,9 +48,9 @@ Here are the meanings of the inputs:
 
 Some scenarios are preset to provide some interesting simulation cases :
 
-- __Majority of the population vaccinated__:
-- __Disease really infective and quick__:
-- __Dense population with low infectivity__:
+- __Majority of the population vaccinated__: 50% are vaccinated and 20% infected
+- __Disease really infective and quick__: the infectiosity is really high, howerever the disease lasts only 20s
+- __Dense population with low infectivity__: we generate 2000 agents with 10% infected and only 20% of infectiosity. The disease lasts 60s.
 
 ### Simulation
 
